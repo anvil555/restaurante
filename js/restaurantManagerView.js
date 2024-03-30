@@ -1,4 +1,16 @@
+/**
+ * https://github.com/anvil555/restaurante.git
+ */
+
+
 class RestaurantManagerView {
+    /**
+     * en el constructor declaramos los id de los elementos fijos que se
+     * crean desde el html
+     * si declaramos alguno de los que generamos en las vistas posteriores
+     * evidentemente genera un error ya que estariamos llamando a una variable que todavia
+     * no esta declarada.
+     */
     constructor() {
         this.main = document.getElementsByTagName('main')[0];
         this.nav = document.getElementById('navegador');
@@ -6,19 +18,31 @@ class RestaurantManagerView {
         this.randomDish = document.getElementById('randomdish');
 
     }
+    /**
+     * metodo con las vistas iniciales de la página
+     */
     init() {
         this.showMenu();
         this.main.replaceChildren();
-        //   this.showMain();
-
-
     }
+
+    /**
+     * listener para el boton de inicio y el logo de la pagina y devolver 
+     * la página al estado inicial
+     * @param {*} handler 
+     */
     bindInit(handler) {
         document.getElementById('init').addEventListener('click', (event) => {
             handler();
         });
+        document.getElementById('tarea').addEventListener('click', (event) => {
+            handler();
+        });
 
     }
+    /**
+     * funcion que genera la vista del navegador
+     */
     showMenu() {
         this.nav.replaceChildren();//vacia el elemento
         this.nav.insertAdjacentHTML('afterbegin',
@@ -30,21 +54,8 @@ class RestaurantManagerView {
 
     }
 
-
-    showMain() {
-        this.main.replaceChildren();
-        this.main.insertAdjacentHTML('afterbegin',
-            `<div class="centrador">
-            <a href="#" id='cat2'><img src='images/cat.jpg' alt='categoría'></a>
-            <a href="#" id="dish2"><img src='images/dish.jpg' alt='platos'></a>
-            <a href="#" id="aller2"><img src='images/aller.jpg' alt='alergenos'></a>
-            <a href="#" id="menu2"><img src='images/menu.jpg' alt='menu'></a>
-            <a href="#" id="rest2"><img src='images/rest.jpg' alt='restaurante'></a>
-        </div>`);
-
-    }
     /*
-    creamos el listener
+    creamos el listener para el boton de categorias.
     */
     bindCategories(handler) {
         document.getElementById('cat').addEventListener('click', (event) => {
@@ -54,7 +65,7 @@ class RestaurantManagerView {
     }
 
     /*
-    creamos el hmtl con los datos que recibimos del manejador
+    creamos el hmtl con los datos de las categorias que recibimos del manejador
     */
     showCategoriesType(categories) {
         this.showTitle('Categorías');
@@ -72,14 +83,18 @@ class RestaurantManagerView {
         </div>`)
         }
     }
-
+    /*
+    creamos el listener para el boton de platos.
+    */
     bindDishes(handler) {
         document.getElementById('dish').addEventListener('click', (event) => {
             handler();
         });
 
     }
-
+    /*
+    creamos el hmtl con los datos de los platos que recibimos del manejador
+    */
     showDishesType(dishes) {
         this.showTitle('Platos');
         let list = document.createElement('section');
@@ -95,12 +110,18 @@ class RestaurantManagerView {
         </div>`)
         }
     }
+     /*
+    creamos el listener para el boton de alérgenos.
+    */
     bindAllergens(handler) {
         document.getElementById('aller').addEventListener('click', (event) => {
             handler();
         })
 
     }
+    /*
+    creamos el hmtl con los datos de los alérgenso que recibimos del manejador
+    */
     showAllergensType(allergens) {
         this.showTitle('Alérgenos');
         let list = document.createElement('section');
@@ -116,12 +137,18 @@ class RestaurantManagerView {
         </div>`)
         }
     }
+     /*
+    creamos el listener para el boton de menús.
+    */
     bindMenus(handler) {
         document.getElementById('menu').addEventListener('click', (event) => {
             handler();
         })
 
     }
+    /*
+    creamos el hmtl con los datos de los menús que recibimos del manejador
+    */
     showMenusType(menus) {
         this.showTitle('Menús');
         let list = document.createElement('section');
@@ -138,13 +165,18 @@ class RestaurantManagerView {
         }
     }
 
+     /*
+    creamos el listener para el boton de menús.
+    */
     bindRestaurants(handler) {
         document.getElementById('rest').addEventListener('click', (event) => {
             handler();
         })
 
     }
-
+    /*
+    creamos el hmtl con los datos de los restaurantes que recibimos del manejador
+    */
     showRestaurantsType(restaurants) {
         this.showTitle('Restarurantes');
         let list = document.createElement('section');
@@ -160,7 +192,12 @@ class RestaurantManagerView {
         </div>`)
         }
     }
-
+    /**
+     * listener de los alergenos
+     * en el data type (dataset.allergen) pasamos el valor que estamos 
+     * recibiendo en el evento click al manejador.
+     * @param {*} handler 
+     */
     bindAllergensDetails(handler) {
         let itemList = this.main.querySelectorAll('.container li');
         // console.log(itemList.length);
@@ -177,6 +214,15 @@ class RestaurantManagerView {
             })
         })
     }
+    /**
+     * vista que muestra el detalle de un alérgeno.
+     * como el objeto allergen puede tener asociados otros elementos
+     * como son los platos en este caso, ponemos la condicional del principio
+     * 
+     * el valor del mapa puede ser un objeto literal donde se encuentre la propiedad
+     * allergen.allergen ó alleren.dishes con los platos relacionados con ese alérgeno.
+     * @param {} allergen 
+     */
     showAllergenDetail(allergen) {
         let temp;
         this.main.replaceChildren();
@@ -218,9 +264,12 @@ class RestaurantManagerView {
                 <section class='aller-list' id='allerlist'><section>`);
 
         }
-
-
     }
+
+    /**
+     * listener con los platos de cada categoría 
+     * @param {*} handler 
+     */
     bindDishInCategory(handler) {
         let itemlist = this.main.querySelectorAll('.container li');
         // console.log(itemlist.length);
@@ -237,7 +286,12 @@ class RestaurantManagerView {
             })
         })
     }
-
+/**
+ * vista que muestra los platos de una categoria y muestra el rastro de migas de pan
+ * 
+ * @param {*} dishes coleccion de  platos de una categoria 
+ * @param {*} name nombre de la categoria
+ */
     showDishInCategory(dishes, name) {
         this.main.replaceChildren();
         this.main.insertAdjacentHTML('afterbegin',
@@ -256,6 +310,10 @@ class RestaurantManagerView {
             `)
         }
     }
+    /**
+     * listener de los platos seleccionados
+     * @param {*} handler 
+     */
     bindSelectDish(handler) {
         let itemlist = this.main.querySelectorAll('.container li');
         itemlist.forEach(function (item, key) {
@@ -272,6 +330,10 @@ class RestaurantManagerView {
 
     }
 
+    /**
+     * listener con los alergenos seleccionados.
+     * @param {*} handler 
+     */
     bindSelectAllergen(handler) {
         let allerList = document.getElementById('allerlist');
         let selectorAller = allerList.querySelectorAll('.container li');
@@ -289,6 +351,10 @@ class RestaurantManagerView {
         })
 
     }
+    /**
+     * listener para los menus 
+     * @param {*} handler 
+     */
     bindSelectMenu(handler) {
         let menuList = document.getElementById('menulist');
         let selectorMenu = menuList.querySelectorAll('.container li');
@@ -305,6 +371,11 @@ class RestaurantManagerView {
             })
         })
     }
+    /**
+     * vista que recibe toda la informacion de un plato: plato, alergenos
+     * , menus y la muestra por pantalla
+     * @param {*} item plato completo
+     */
     showSelectDishDetail(item) {
         this.main.replaceChildren();
         this.main.insertAdjacentHTML('beforeend',
@@ -365,7 +436,10 @@ class RestaurantManagerView {
 
         }
     }
-
+    /**
+     * listener para los platos en la vista de platos
+     * @param {*} handler 
+     */
     bindDishInDishes(handler) {
         let itemlist = this.main.querySelectorAll('.container li');
         // console.log(itemlist.length);
@@ -382,7 +456,10 @@ class RestaurantManagerView {
             })
         })
     }
-
+    /**
+     * listener para los menus en la vista de menus
+     * @param {*} handler 
+     */
     bindMenuDetails(handler) {
         let itemList = this.main.querySelectorAll('.container li');
         itemList.forEach(function (item, key) {
@@ -397,7 +474,10 @@ class RestaurantManagerView {
             })
         })
     }
-
+    /**
+     * vista que muestra el detalle de un menu y sus platos relacionados.
+     * @param {*} item 
+     */
     showMenuDetails(item) {
         let menu;
         if (item.menu) {
@@ -442,6 +522,10 @@ class RestaurantManagerView {
         }
 
     }
+    /**
+     * listener para los restaurantes en la vista de restaurantes
+     * @param {*} handler 
+     */
     bindRestaurantDetails(handler) {
         let itemList = this.main.querySelectorAll('.container li');
         itemList.forEach(function (item, key) {
@@ -457,18 +541,12 @@ class RestaurantManagerView {
                 handler(event.currentTarget.dataset.restaurant);
             })
         })
-        //aqui el listener de los restaurantes
-        /*let contenidoRest = document.getElementById('contenidorest');
-        let options = contenidoRest.querySelectorAll('.option');
-        options.forEach(function (item, key) {
-            console.log(item);
-
-            item.addEventListener('click', (event) => {
-                handler(event.currentTarget.dataset.restaurant);
-            })
-        })*/
-        
     }
+
+    /**
+     * vista que muestra el detalle de los restaurantes.
+     * @param {*} restaurant 
+     */
     showRestaurantDetail(restaurant) {
 
         this.main.replaceChildren();
@@ -495,7 +573,10 @@ class RestaurantManagerView {
         }
     }
 
-
+    /**
+     * vista para el menu desplegable de restaurantes en el header de la pagina
+     * @param {*} restaurants 
+     */
     showContenidoRest(restaurants) {
         let contenidoRest = document.getElementById('contenidorest');
         contenidoRest.replaceChildren();
@@ -504,22 +585,54 @@ class RestaurantManagerView {
                 `<option class='option' value='${key}' data-restaurant='${key}'>${key}</option>`)
         })
     }
-
+    /**
+     * listener para los elementos del desplegable de los restaurantes.
+     * @param {*} handler 
+     */
     bindShowContenidoRest(handler) {
         let contenidoRest = document.getElementById('contenidorest');
         let options = contenidoRest.querySelectorAll('.option');
-        console.log(options.length)
+        // console.log(options.length);
         options.forEach(function (item, key) {
-            // console.log(item);
             item.addEventListener('click', (event) => {
                 handler(event.currentTarget.dataset.restaurant);
             })
         })
     }
-    //////////////////////////////////////
-    showRandomDish(dishes){
+    /**
+     * vista para el menu desplegable de categorias en el header de la pagina
+     * @param {*} restaurants 
+     */
+    showContenidoCat(categories) {
+        let contenidoCat = document.getElementById('contenidocat');
+        contenidoCat.replaceChildren();
+        categories.forEach(function (value, key) {
+            contenidoCat.insertAdjacentHTML('beforeend',
+                `<option class='option' value='${key}' data-category='${key}'>${key}</option>`)
+        })
+    }
+    /**
+     * listener para los elementos del desplegable de categorias 
+     * @param {} handler 
+     */
+    bindShowContenidoCat(handler) {
+        let contenidoCat = document.getElementById('contenidocat');
+        let options = contenidoCat.querySelectorAll('.option');
+        // console.log(options.length);
+        options.forEach(function (item, key) {
+            item.addEventListener('click', (event) => {
+                handler(event.currentTarget.dataset.category);
+            })
+        })
+    }
+
+    /**
+     * vista para los platos aleatorios 
+     * @param {*} dishes 
+     */
+    showRandomDish(dishes) {
         this.randomDish.replaceChildren();
-        
+
         for (const dish of dishes) {
             this.randomDish.insertAdjacentHTML('afterbegin',
                 `<div class='card'>
@@ -530,9 +643,13 @@ class RestaurantManagerView {
             </div>
             `)
         }
-        
+
     }
-    bindRandomDish(handler){
+    /**
+     * listener para los platos aleatorios.
+     * @param {} handler 
+     */
+    bindRandomDish(handler) {
         let randomDish = this.randomDish.querySelectorAll('.container li');
         randomDish.forEach(function (item, key) {
             item.addEventListener('click', (event) => {
@@ -547,7 +664,10 @@ class RestaurantManagerView {
         })
     }
 
-
+    /**
+     * funcion auxiliar para mostrar el titulo de la vista en la que nos encontramos.
+     * @param {*} titleCat 
+     */
     showTitle(titleCat) {
         this.main.replaceChildren();
         let title = document.createElement('h2');

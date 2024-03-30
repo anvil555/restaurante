@@ -10,6 +10,10 @@ import {
 } from './exceptions.js';
 
 /**
+ * https://github.com/anvil555/restaurante.git
+ */
+
+/**
  * importamos las clases con los objetos que solicita el enunciado.
  */
 import { Category, Allergen, Coordinate, Dish, Menu, Restaurant } from './objects.js';
@@ -577,7 +581,7 @@ const Manager = (function () {
 
         /**
          * ya he sabido implementar este método...
-         * en la tarea 4 no supe...
+         * en la tarea 4 no supe... y ademas he implementado algun iterador mas...
          * 
          * @param {*} category 
          */
@@ -618,6 +622,13 @@ const Manager = (function () {
                 }
             }
         }
+        /**
+         * funcion que devuelve un objeto literal con todas las propiedades
+         * que puede tener un objeto plato.
+         * @param {*} dish 
+         * @returns 
+         */
+
 
         infoDish(dish) {
             if (!dish) {
@@ -835,11 +846,15 @@ const Manager = (function () {
 
             return restaurant;
         }
+        /**
+         * funciones auxiliares que devuelven numero de platos,
+         * categorias
+         */
 
         /**
-      * 
-      * @returns 
-      */
+         * 
+         * @returns 
+         */
         getNumberDishes() {
             return this.#dishes.size;
         }
@@ -850,6 +865,11 @@ const Manager = (function () {
         getNumberCategories() {
             return this.#categories.size;
         }
+
+        /**
+         * funciones auxiliares que devuelven los mapas con las distintas
+         * colecciones.
+         */
         /**
          * 
          * @returns 
@@ -885,7 +905,11 @@ const Manager = (function () {
         getRestaurants() {
             return this.#restaurants;
         }
-
+        /**
+         * funciones qeu devuelve un objeto en concreto de la coleccion.
+         * @param {*} clave 
+         * @returns 
+         */
         findAllergen(clave) {
             let temp = this.#allergens.get(clave);
             return temp;
@@ -899,6 +923,7 @@ const Manager = (function () {
             return temp;
         }
 
+       
 
 
 

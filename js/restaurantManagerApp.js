@@ -3,6 +3,10 @@ import { Category, Allergen, Coordinate, Dish, Menu, Restaurant } from './object
 import RestarurantManagerController from './restaurantMangerController.js';
 import RestaurantManagerView from './restaurantManagerView.js';
 
+/**
+ * https://github.com/anvil555/restaurante.git
+ */
+
 const RestaurantManagerApp = new RestarurantManagerController(Manager.getInstancia(), new RestaurantManagerView());
 
 let cat1 = new Category("Pescados", "Directamente del mar");
@@ -106,19 +110,22 @@ Manager.getInstancia().assignCategoryToDish(cat5, dish17, dish18, dish19);
 // Manager.getInstancia().deassignCategoryToDish(cat1,dish15);
 Manager.getInstancia().assignAllergenToDish(dish1, aller1, aller2, aller4);
 Manager.getInstancia().assignAllergenToDish(dish6, aller4, aller2);
-Manager.getInstancia().assignAllergenToDish(dish19, aller4);
-
-
-
+Manager.getInstancia().assignAllergenToDish(dish19, aller4, aller2, aller3);
+Manager.getInstancia().assignAllergenToDish(dish10, aller1, aller2, aller4);
+Manager.getInstancia().assignAllergenToDish(dish15, aller2, aller3);
+Manager.getInstancia().assignAllergenToDish(dish12, aller1);
+Manager.getInstancia().assignAllergenToDish(dish3, aller3);
+Manager.getInstancia().assignAllergenToDish(dish4, aller1, aller4);
+Manager.getInstancia().assignAllergenToDish(dish8, aller3);
 // Manager.getInstancia().deassignAllergenToDish(dish1,aller1);
-Manager.getInstancia().assignDishToMenu(menu2, dish3, dish4, dish18);
+
+
+Manager.getInstancia().assignDishToMenu(menu2, dish3, dish4, dish2);
 Manager.getInstancia().assignDishToMenu(menu3, dish11, dish7, dish19);
 Manager.getInstancia().assignDishToMenu(menu5, dish10, dish8, dish17);
 Manager.getInstancia().assignDishToMenu(menu1, dish12, dish1, dish18);
 Manager.getInstancia().assignDishToMenu(menu4, dish5, dish6, dish13, dish18);
-
-
-
 // Manager.getInstancia().deassignDishToMenu(menu1, dish5);
+
 
 export default RestaurantManagerApp;
