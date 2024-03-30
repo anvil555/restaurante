@@ -1,0 +1,205 @@
+header {
+  display: flex;
+  /* justify-content: flex-start; */
+  border: 1px solid maroon;
+  color: maroon;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px 5px gray;
+  /* position: fixed;
+  top: 0;
+  width: 100%;
+  margin: 10px;
+  padding: 0;
+  overflow: hidden; */
+  margin-bottom: 25px;
+}
+
+#tarea {
+  font-size: 2em;
+  margin-right: 100px;
+}
+
+header>div {
+  display: flex;
+  margin-right: 20px;
+}
+
+header>div>a {
+  display: flex;
+  text-decoration: none;
+  align-items: flex-start;
+  margin: 10px;
+  color: maroon;
+
+}
+
+
+
+.navegador {
+  display: flex;
+  justify-content: space-around;
+  margin: 5px;
+
+}
+
+.navegador a {
+  text-decoration: none;
+  justify-content: space-between;
+  background-color: darkgrey;
+  width: 15%;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  padding: 8px;
+}
+
+.navegador a:hover {
+  background-color: grey;
+  color: whitesmoke;
+  border: none;
+  transition: 250ms;
+}
+
+.navegador a:active {
+  background-color: grey;
+  transform: scale(0.8);
+}
+
+/*  MENU DESPLEGABLE RESTAURANTES  */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content option {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-content option:hover {
+  background-color: maroon;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  cursor: pointer;
+}
+
+/*   */
+
+.centrador {
+  display: flex;
+  justify-content: space-around;
+}
+
+.centrador a {
+  width: 100%;
+  margin: 5px;
+}
+
+.centrador a img {
+  width: 100%;
+}
+
+.item-list,
+.aller-list,
+.menu-list,
+.random-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  border: 1px solid maroon;
+  border-radius: 10px;
+  margin-bottom: 10px;
+
+}
+
+#randomdish {
+  background-color: beige;
+}
+
+main .card,
+.random-list .card {
+  border: 1px solid gray;
+  border-radius: 5px;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  width: 20%;
+  box-shadow: 3px 3px 3px 3px gray;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+.container {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.container li {
+  list-style: none;
+  padding: 3px;
+  cursor: pointer;
+  width: 100%;
+}
+
+
+.ficha {
+  display: flex;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid maroon;
+  border-radius: 10px;
+}
+
+.ficha .detalle {
+  margin: 10px;
+}
+
+.ficha img {
+  border-radius: 10px;
+}
+
+h3.no-asignado {
+  color: red;
+  background-color: white;
+  text-align: center;
+  font-style: italic;
+}
+
+main>h3,
+body>h3 {
+  background-color: lightgreen;
+  padding: 3px;
+}
+
+footer {
+  background-color: lightslategray;
+}
