@@ -601,7 +601,7 @@ class RestaurantManagerView {
     }
     /**
      * vista para el menu desplegable de categorias en el header de la pagina
-     * @param {*} restaurants 
+     * @param {*} categories 
      */
     showContenidoCat(categories) {
         let contenidoCat = document.getElementById('contenidocat');
