@@ -1,18 +1,16 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
 header {
   display: flex;
-  /* justify-content: flex-start; */
   border: 1px solid maroon;
   color: maroon;
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 5px;
   box-shadow: 5px 5px 5px 5px gray;
-  /* position: fixed;
-  top: 0;
-  width: 100%;
-  margin: 10px;
-  padding: 0;
-  overflow: hidden; */
   margin-bottom: 25px;
 }
 
@@ -47,7 +45,7 @@ header>div>a {
 .navegador a {
   text-decoration: none;
   justify-content: space-between;
-  background-color: darkgrey;
+  background-color: maroon;
   width: 15%;
   text-align: center;
   border-radius: 5px;
@@ -56,18 +54,19 @@ header>div>a {
 }
 
 .navegador a:hover {
-  background-color: grey;
+  background-color: rgb(69, 3, 3);
   color: whitesmoke;
   border: none;
   transition: 250ms;
 }
 
 .navegador a:active {
-  background-color: grey;
+  background-color: rgb(69, 3, 3);
   transform: scale(0.8);
 }
 
 /*  MENU DESPLEGABLE RESTAURANTES  */
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -202,4 +201,131 @@ body>h3 {
 
 footer {
   background-color: lightslategray;
+}
+
+/********************** MODAL ******************************/
+
+.modal {
+  /* display: none; Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  /* background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+  border-radius: 8px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  margin-top: 15px;
+  background-color: #fefefe;
+  margin: 5% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Could be more or less, depending on screen size */
+}
+
+.formclass {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.headerform {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+
+
+article {
+  width: 50%;
+}
+
+.add-ingredient {
+  display: flex;
+}
+
+#ingredient {
+  width: 85%;
+}
+
+#addingredient {
+  width: 15%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  width: 2%;
+  float: right;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.modal>div {
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+input[type=text],input[type=number],
+select {
+  width: 100%;
+  padding: 8px 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+input[type=submit],
+button {
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: maroon;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+textarea {
+  height: 50px;
+  font-size: 16px;
 }

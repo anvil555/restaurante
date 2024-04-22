@@ -12,21 +12,25 @@
 </head>
 
 <body>
-    <header>
+    <header id="header">
 
         <div id="tarea">
-            <a href="#">DWEC 5 </a>
+            <a href="#">DWEC 6 </a>
         </div>
         <div>
             <a title="Devuelve la página al inicio." id="init" href="#">Inicio</a>
         </div>
         <div id="dropdown" class="dropdown">
-            <a class="dropbtn" title="Muestra los restaurantes">Restaurantes</a>
+            <a class="dropbtn" title="Muestra los restaurantes">Restaurantes &#x21D3;</a>
             <div class="dropdown-content" id="contenidorest"></div>
         </div>
         <div id="dropdown" class="dropdown">
-            <a class="dropbtn" title="Muestra las categorías.">Categorias</a>
+            <a class="dropbtn" title="Muestra las categorías.">Categorias &#x21D3;</a>
             <div class="dropdown-content" id="contenidocat"></div>
+        </div>
+        <div id="dropdown" class="dropdown">
+            <a class="dropbtn" title="Opciones.">Opciones &#x21D3;</a>
+            <div class="dropdown-content" id="contenidoopcion"></div>
         </div>
         <div>
             <a href="#randomdish" title="Te lleva a los platos aleatorios">Platos del día</a>
@@ -42,6 +46,8 @@
     <section id="randomdish" class="random-list">
         <button onclick="randomdish()">Prueba suerte</button>
     </section>
+
+
     <footer></footer>
     <script src="./js/restaurantManagerApp.js" type="module"></script>
 </body>

@@ -131,45 +131,6 @@ class Category {
     }
 }
 
-/**
- * Define las coordenadas para localizar la ubicacion de un restauante
- * Se pasa como parámetro al objeto Restaurant
- */
-class Coordinate {
-    #latitude;
-    #longitude;
-    constructor(latitude, longitude) {
-        if (!new.target) throw new InvalidConstructorException();
-        if (!latitude) throw new ValueEmptyException();//propiedad obligatoria
-        latitude = Number.parseFloat(latitude);  //la parseamos como Float      
-        this.#latitude = latitude;
-        if (!longitude) throw new ValueEmptyException();//propiedad obligaoria
-        longitude = Number.parseFloat(longitude);     //la parseamos como Float   
-        this.#longitude = longitude;
-    }
-
-    /**
-     * getter, setter y toString() de la clase Coordinate.
-     */
-    get latitude() {
-        return this.#latitude;
-    }
-    get longitude() {
-        return this.#longitude;
-    }
-    set latitude(latitude) {
-        if (!latitude) throw new ValueEmptyException();
-        this.#latitude = latitude;
-    }
-    set longitude(longitude) {
-        if (!longitude) throw new ValueEmptyException();
-        this.#longitude = longitude;
-    }
-
-    toString() {
-        return `${this.#latitude} ${this.#longitude}`;
-    }
-}
 
 /**
  * Objeto para identificar las propiedades de un plato.
@@ -214,6 +175,7 @@ class Dish {
     get ingredients() {
         return this.#ingredients;
     }
+    
     get image() {
         return this.#image;
         //console.log(image.name); 
@@ -228,6 +190,9 @@ class Dish {
     set image(image) {
         this.#image = image;
         //paella.image = "foto" 
+    }
+    set ingredients(ingredients){
+        this.#ingredients=ingredients;
     }
     /**
      * metodos de la colección de ingredientes.
@@ -353,11 +318,11 @@ class Restaurant {
             this.#name = name;
         }
         this.#description =description;
-        if (location === undefined) {
-            this.#location = "";
-        } else {
-            this.location = location;//utilizamos el set
-        }
+        // if (location === undefined) {
+        //     this.#location = "";
+        // } else {
+             this.#location = location;//utilizamos el set
+        // }
     }
 
     /**
@@ -390,6 +355,47 @@ class Restaurant {
 
     toString() {
         return `${this.#name} ${this.#description} ${this.#location}`;
+    }
+}
+
+
+/**
+ * Define las coordenadas para localizar la ubicacion de un restauante
+ * Se pasa como parámetro al objeto Restaurant
+ */
+class Coordinate {
+    #latitude;
+    #longitude;
+    constructor(latitude, longitude) {
+        if (!new.target) throw new InvalidConstructorException();
+        if (!latitude) throw new ValueEmptyException();//propiedad obligatoria
+        latitude = Number.parseFloat(latitude);  //la parseamos como Float      
+        this.#latitude = latitude;
+        if (!longitude) throw new ValueEmptyException();//propiedad obligaoria
+        longitude = Number.parseFloat(longitude);     //la parseamos como Float   
+        this.#longitude = longitude;
+    }
+
+    /**
+     * getter, setter y toString() de la clase Coordinate.
+     */
+    get latitude() {
+        return this.#latitude;
+    }
+    get longitude() {
+        return this.#longitude;
+    }
+    set latitude(latitude) {
+        if (!latitude) throw new ValueEmptyException();
+        this.#latitude = latitude;
+    }
+    set longitude(longitude) {
+        if (!longitude) throw new ValueEmptyException();
+        this.#longitude = longitude;
+    }
+
+    toString() {
+        return `${this.#latitude} ${this.#longitude}`;
     }
 }
 

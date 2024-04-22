@@ -1,4 +1,26 @@
-
+CONSIDERACIONES
+ 
+ version 1
+ 
  https://github.com/anvil555/restaurante.git
  
+ 
+ 
+ version 2
+
+ Aunque están implementados, no he podido hacer que funcione la validacion del 
+ input tipo file.
+
+ Tampoco he podido introducir la mascara de entrada ni la validacion para las coordenadas de un
+ nuevo restaurante
+
+ la ordenacion de los elementos lo hago directamente desde el modelo
+ ordenando los mapas al pasarlos a las vistas.
+
+ los listener los he tenido que implementar directamente en las vistas  en lugar 
+ de en los métodos bind porque me daban problemas de funcionalidad 
+ y andaba justo de tiempo. 
+ Para la versión 3 si la hay, intentaré solucionarlo.
+
+ Por lo demás creo que funciona todo.
  

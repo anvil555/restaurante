@@ -259,7 +259,7 @@ const Manager = (function () {
                     throw new UnexpectedObjectException(Object.values(dishIt));
                 } else {
                     if (this.#dishes.has(dishIt.name)) {
-                            
+
                         // throw new ObjectAlreadyExistsException(dishIt.name);
                     } else {
                         this.#dishes.set(dishIt.name, dishIt);
@@ -535,16 +535,18 @@ const Manager = (function () {
                 }
                 let storedMenu = this.#menus.get(menu.name);//tomamos el valor del objeto literal
                 if (storedMenu.dishes) {
-                    storedMenu.dishes.set(dish.name, dish);
-                   // console.log("Añadido plato " + dish.name + " al menú " + menu.name);
+                    if (storedMenu.dishes.has(dish.name)) {
+                        console.log("el plato ya existe en la coleccion")
+                    } else {
+                        storedMenu.dishes.set(dish.name, dish);
+                        // console.log("Añadido plato " + dish.name + " al menú " + menu.name);   
+                    }
                 } else {
                     let value = (menu.name, { menu, dishes: new Map().set(dish.name, dish) });
                     this.#menus.set(menu.name, value);
-                   // console.log("Añadido plato " + dish.name + " al menú " + menu.name);
+                    // console.log("Añadido plato " + dish.name + " al menú " + menu.name);
 
                 }
-
-
             }
             return this;
         }
@@ -569,8 +571,9 @@ const Manager = (function () {
                     throw new UnexpectedObjectException(Object.values(dish));
                 }
                 let storedMenu = this.#menus.get(menu.name);
-                if (storedMenu.menus.has(dishes.name)) {
-                    storedMenu.delete(dishes.name);
+                console.log(storedMenu);
+                if (storedMenu.dishes.has(dish.name)) {
+                    storedMenu.dishes.delete(dish.name);
                     //console.log("Plato eliminado");
                 } else {
                     throw "No se ha encontrado el plato " + dish.name + " en el menú " + menu.name;
@@ -601,27 +604,29 @@ const Manager = (function () {
                 throw new ItemNotFoundException(category);
             }
         }
-        *getDishesInAllergen(allergen){//le pasamos el nombre del alergeno
-            if(this.#allergens.has(allergen)){
-                const storesAllergen = this.#allergens.get(allergen);
-                if(storesAllergen.dishes){
-                    const values = storesAllergen.dishes.values();
+        *getDishesInAllergen(allergen) {//le pasamos el nombre del alergeno
+            if (this.#allergens.has(allergen)) {
+                const storedAllergen = this.#allergens.get(allergen);
+                if (storedAllergen.dishes) {
+                    const values = storedAllergen.dishes.values();
                     for (const dish of values) {
                         yield dish;
                     }
                 }
             }
         }
-        *getMenuInMenus(menu){
-            if(this.#menus.has(menu)){
+        *getMenuInMenus(menu) {
+            if (this.#menus.has(menu)) {
                 const storedMenu = this.#menus.get(menu);
-                if(!menu.dishes){
+                if (!menu.dishes) {
                     yield storedMenu;
-                }else{
+                } else {
                     yield storedMenu.menu;
                 }
             }
         }
+
+
         /**
          * funcion que devuelve un objeto literal con todas las propiedades
          * que puede tener un objeto plato.
@@ -635,10 +640,15 @@ const Manager = (function () {
                 throw new NullObjectException();
             }
             let literal = {};//creamos un objeto literal para añadirle toda la informacion de un plato.
+            if (this.#dishes.has(dish)) {
+                literal.dish = this.#dishes.get(dish);
+            }
+
+            // literal.category=[];
             this.#categories.forEach(function (value, key) {
                 if (value.dishes) {
                     if (value.dishes.has(dish)) {
-                        literal.dish = value.dishes.get(dish);
+                        // literal.dish = value.dishes.get(dish);
                         literal.category = value.category;
                     }
                 }
@@ -646,16 +656,16 @@ const Manager = (function () {
             literal.allergen = [];
             this.#allergens.forEach(function (value, key) {
                 if (value.dishes) {
-                    
                     if (value.dishes.has(dish)) {
                         literal.allergen.push(value.allergen);
                     }
                 }
             })
-            this.#menus.forEach(function(value,key){
-                if(value.dishes){
-                    if(value.dishes.has(dish)){
-                        literal.menu=value.menu
+            literal.menu = [];
+            this.#menus.forEach(function (value, key) {
+                if (value.dishes) {
+                    if (value.dishes.has(dish)) {
+                        literal.menu.push(value.menu);
                     }
                 }
             })
@@ -687,42 +697,45 @@ const Manager = (function () {
          * @returns 
          */
 
-        createDish(name, description, image, ...ingredients) {//parámetros de la función, son los que necesita el constructor del objeto.
-            if (!name) { throw new ValueEmptyException("name"); }//validamos el nombre(es la única propiedad obligatoria del objeto Dish)
-            let dish;//creamos una variable para uso interno.
-            let control = false;//booleano de control que cambia a true si el objeto existe en caso contrario se creará un objeto nuevo
-            this.#dishes.forEach(function (value, key) {//recorremos la colección de platos para comprobar que no exista.
-
-                if (key === name) {//si existe
-                    control = true;//cambiamos el valor de la variable de control
-                    value.forEach(function (value2, key2) {//iteramos sobre el valor del primer mapa para obtener la clave que es donde se encuentra el objeto que buscamos.
-                        dish = key2;//retornamos el propio objeto coincidente.
-                    })
+        createDish(name, description, image, ...ingredients) {
+            if (!name) { throw new ValueEmptyException("name"); } let dish;
+            let control = false; this.#dishes.forEach(function (value, key) {
+                if (key === name) {
+                    control = true;
                 }
             })
-            if (control === false) {//en caso de no existir el plato en la coleccion.
-                dish = new Dish(name);//instanciamos un nuevo objeto Plato asignando las propiedades de los parámetros.
-                if (!description) {//validamos el resto de parámetros de entrada.
-                    dish.description = ""
-                } else {
-                    dish.description = description;
-                }
-                if (!image) {
-                    dish.image = "";
-                } else {
-                    dish.image = image;
-                }
-                if (!ingredients) {
-                    dish.ingredients = [];
-                } else {
-                    for (let ing of ingredients) {//se pueden añadir varios ingredientes al mismo tiempo
-                        dish.addIngredients(ing);//utilizando el método del objeto addIngredients(ing)
+            if (control === false) {
+                dish = new Dish(name, description);
+                dish.image = image;
+                // console.log(dish);
+                for (let ing of ingredients) {
+                    for (let temp of ing) {
+                        dish.addIngredients(temp);
                     }
+
                 }
+                this.addDish(dish);
             }
-            return dish;//retornamos el nuevo objeto o el que ya está registrado.
+            return dish;
         }
 
+        /**
+         * 
+         * @param {*} dish 
+         * @returns
+         * metodo modificado y adaptado para esta version del proyecto
+         * que añade un plato a la coleccion si no existe
+         * y devuelve falso si ya existe. 
+         */
+        // createDish(dish) {
+        //     let control = false;
+        //     if (!this.#dishes.has(dish.name)) {
+        //         this.addDish(dish);
+        //         // console.log("plato añadido");
+        //         control = true;
+        //     }
+        //     return control;
+        // }
         /**
          * Funcion que crea un menu o devuelve el que ya está registrado.
          * 
@@ -794,19 +807,11 @@ const Manager = (function () {
             this.#categories.forEach(function (value, key) {
                 if (key === name) {
                     control = true;
-                    value.forEach(function (value2, key2) {
-                        category = key2;
-                    })
                 }
             })
             if (control === false) {
-                category = new Category(name);
-
-                if (!description) {
-                    category.description = "";
-                } else {
-                    category.description = description;
-                }
+                category = new Category(name, description);
+                this.addCategory(category);
             }
             return category;
         }
@@ -815,35 +820,18 @@ const Manager = (function () {
          * Función que crea un restaurante o lo devuelve si ya está registrado
          * @param {*} name 
          * @param {*} description 
-         * @param {*} location 
+         * @param {*} latitude, longitude
+         * @param {*} longitude 
          * @returns 
          */
-        createRestaurant(name, description, location) {
-            if (!name) { throw new ValueEmptyException("name"); }
+        createRestaurant(name, description, latitude, longitude) {
             let restaurant;
-            let control = false;
-            this.#restaurants.forEach(function (value, key) {
-                if (key === name) {
-                    control = true;
-                    restaurant = value;
-                }
-            })
-            if (control === false) {
-                restaurant = new Restaurant(name);
-                if (!description) {
-                    restaurant.description = "";
-                } else {
-                    restaurant.description = description;
-                }
-                if (!location) {
-                    restaurant.location = [];
-                } else if (location instanceof Coordinate) {
-                    restaurant.location = location;
-                } else {
-                    throw new UnexpectedObjectException();
-                }
+            restaurant = new Restaurant(name, description);
+            if (location != null) {
+                let coord = new Coordinate(latitude, longitude);
+                restaurant.location = coord;
+                this.addRestaurant(restaurant);
             }
-
             return restaurant;
         }
         /**
@@ -856,6 +844,7 @@ const Manager = (function () {
          * @returns 
          */
         getNumberDishes() {
+            
             return this.#dishes.size;
         }
         /**
@@ -875,35 +864,58 @@ const Manager = (function () {
          * @returns 
          */
         getCategories() {
-            return this.#categories;
+            // return this.#categories;
+            const array = Array.from(this.#categories);
+            const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
         }
         /**
          * 
          * @returns 
          */
         getDishes() {
-            return this.#dishes;
+            // return this.#dishes;
+            const array = Array.from(this.#dishes);
+            const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
+
+
+            
         }
         /**
          * 
          * @returns 
          */
         getAllergens() {
-            return this.#allergens;
+            // return this.#allergens;
+            const array = Array.from(this.#allergens);
+            const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
         }
         /**
          * 
          * @returns 
          */
         getMenus() {
-            return this.#menus;
+            // return this.#menus;
+            const array = Array.from(this.#menus);
+            const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
         }
         /**
          * 
          * @returns 
          */
         getRestaurants() {
-            return this.#restaurants;
+            // return this.#restaurants;
+            const array = Array.from(this.#restaurants);
+            const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
         }
         /**
          * funciones qeu devuelve un objeto en concreto de la coleccion.
@@ -922,8 +934,65 @@ const Manager = (function () {
             let temp = this.#restaurants.get(clave);
             return temp;
         }
+        findCategory(clave) {
+            let temp = this.#categories.get(clave);
+            return temp;
+        }
+        findDish(clave) {
+            let temp = this.#dishes.get(clave);
+            return temp;
+        }
+        /**
+         * 
+         * @param {*} menu 
+         * @returns 
+         * funcion que toma un menu y retorna un mapa con los 
+         * platos que no estan asignados a ese menu.
+         * NO IMPLEMENTADA. la intencion de esta funcion es que en los 
+         * select solo muestre los platos que NO estan en un menu en concreto.
+         * 
+         */
+        filterDishes(menu) {
+            let filter = new Map();
+            let storedMenu = this.#menus.get(menu);
+            if (storedMenu.dishes) {
+                this.#dishes.forEach(function (value, key) {
+                    if (!storedMenu.dishes.has(key)) {
+                        filter.set(key, value);
+                    }
+                })
+                console.log(filter);
+            }
+            return filter;
+        }
 
-       
+
+        deleteDishFromCollection(dish) {
+            this.#menus.forEach(function (value, key) {
+                if (value.dishes.has(dish.name)) {
+                    // this.deassignDishToMenu(value.menu,dish);
+                    value.dishes.delete(dish.name);
+                    console.log(dish.name + " " + value.menu.name);
+                }
+            })
+            this.#categories.forEach(function (value, key) {
+                if (value.dishes.has(dish.name)) {
+                    // this.deassignCategoryToDish(value.category,dish);
+                    value.dishes.delete(dish.name);
+                    console.log(dish.name + " " + value.category.name);
+                }
+            })
+            this.#allergens.forEach(function (value, key) {
+                if (value.dishes.has(dish.name)) {
+                    // this.deassignAllergenToDish(value.allergen,dish);
+                    value.dishes.delete(dish.name);
+                    console.log(dish.name + " " + value.allergen.name);
+                }
+            })
+
+        }
+
+
 
 
 

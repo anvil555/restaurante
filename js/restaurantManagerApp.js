@@ -34,21 +34,24 @@ let dish17 = new Dish("Torrijas", "Las más tradicionales", ["Pan", "lecha", "ca
 let dish18 = new Dish("Tarta de Queso", "Irresistible", ["Queso Philadelphia", "Azúcar", "Harina"])
 let dish19 = new Dish("Bizcochá", "Hay cosas que no se pueden imitar", ["Tortas de Alcázar", "Leche", "Canela", "Limón"]);
 let menu1 = new Menu("WeekEnd", "Menu especial para el fin de semana");
-let menu2 = new Menu("Menu del dia");
+let menu2 = new Menu("Menu del dia","Hecho para currantes");
 let menu3 = new Menu("Navidad", "Ofertas Especiales para Navidad");
 let menu4 = new Menu("Menu Infantil", "Nunca falla");
 let menu5 = new Menu("Vegetariano", "Sólo para valientes.")
 let coord1 = new Coordinate(40.4618423556788, -3.6957148035669287);
 let coord2 = new Coordinate(39.3907729885929, -3.2191598852469294);
 let coord3 = new Coordinate(38.989814, -3.906697);
+let coord4 = new Coordinate(39.389641314505994, -3.2082559024972634);
 let rest1 = new Restaurant("Asador Donostiarra", "Sin comentarios...", coord1);
 let rest2 = new Restaurant("La Mancha", "Cocina Tipica", coord2);
 let rest3 = new Restaurant("Sukol", "Para tomar, llevar y recoger", coord3);
-let rest4 = new Restaurant("Mesón Manolo", "El de toda la vida");
+let rest4 = new Restaurant("Mesón Manolo", "El de toda la vida",coord3);
+let rest5 = new Restaurant("Las Cancelas","Hay cosas que no se pueden imitar",coord4)
 let aller1 = new Allergen("Trigo", "Intolerancia al Gluten");
 let aller2 = new Allergen("Marisco", "Intolerancia a los crustaceos");
 let aller3 = new Allergen("Frutos Secos", "Intolerancia a los frutos secos");
 let aller4 = new Allergen("Lactosa", "intolerante a productos lacteos");
+let aller5= new Allergen("Huevo","Intolerancia al huevo");
 
 RestaurantManagerApp.onLoadDish([
     { instance: dish1 },
@@ -83,7 +86,8 @@ RestaurantManagerApp.onLoadAllergen([
     { instance: aller1 },
     { instance: aller2 },
     { instance: aller3 },
-    { instance: aller4 }
+    { instance: aller4 },
+    { instance: aller5 }
 ]);
 RestaurantManagerApp.onLoadMenu([
     { instance: menu1 },
@@ -96,7 +100,8 @@ RestaurantManagerApp.onLoadRestaurant([
     { instance: rest1 },
     { instance: rest2 },
     { instance: rest3 },
-    { instance: rest4 }
+    { instance: rest4 },
+    { instance: rest5 }
 ]);
 RestaurantManagerApp.onCharge();//hay que llamar a esta funcion primero para que cargue las categorías al inicio y poder mostrar la vista con las categorías.
 
