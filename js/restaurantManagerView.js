@@ -1,7 +1,7 @@
 /**
  * https://github.com/anvil555/restaurante.git
  */
-
+import { setCookie } from '../js/util.js';
 class RestaurantManagerView {
     /**
      * en el constructor declaramos los id de los elementos fijos que se
@@ -12,10 +12,12 @@ class RestaurantManagerView {
      */
     constructor() {
         this.main = document.getElementsByTagName('main')[0];
+        this.footer = document.getElementsByTagName('footer')[0];
         this.nav = document.getElementById('navegador');
         this.cat = document.getElementById('cat');
         this.randomDish = document.getElementById('randomdish');
         this.header = document.getElementById('header');
+        this.modal = document.getElementById('myModal');
 
     }
     /**
@@ -58,9 +60,16 @@ class RestaurantManagerView {
     creamos el listener para el boton de categorias.
     */
     bindCategories(handler) {
-        document.getElementById('cat').addEventListener('click', (event) => {
-            handler();
-        });
+
+        let cat = document.getElementById('cat');
+        if (cat) {
+            cat.addEventListener('click', (event) => {
+                handler();
+            });
+        }
+        // document.getElementById('cat').addEventListener('click', (event) => {
+        //     handler();
+        // });
 
     }
 
@@ -87,15 +96,23 @@ class RestaurantManagerView {
     creamos el listener para el boton de platos.
     */
     bindDishes(handler) {
-        document.getElementById('dish').addEventListener('click', (event) => {
-            handler();
-        });
+        let dish = document.getElementById('dish');
+        if (dish) {
+            dish.addEventListener('click', (event) => {
+                handler();
+            });
+        }
+        // document.getElementById('dish').addEventListener('click', (event) => {
+        //     handler();
+        // });
 
     }
-    /*
-    creamos el hmtl con los datos de los platos que recibimos del manejador
+    /**
+     * creamos el hmtl con los datos de los platos que recibimos del manejador
+     * 
+     * MODIFICACION TAREA 7 PARA MOSTRAR SI UN PLATO ESTA ALMANCENADO COMO FAVORITO.
     */
-    showDishesType(dishes) {
+    showDishesType(dishes, favorites) {
         this.showTitle('Platos');
         let list = document.createElement('section');
         list.classList.add(("item-list"));
@@ -106,17 +123,42 @@ class RestaurantManagerView {
             <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
             <div class='container'>
                  <li data-dish='${key}'>${key}</li>
+                 <div>  
+                    <label class="switch">                 
+                        <input type="checkbox" class="favoriteDish" data-dish='${key}'>
+                        <span class="slider round"></span>
+                    </label>                 
+                 </div>
             </div>
         </div>`)
         }
+        let favoritesChk = document.querySelectorAll('.switch input');
+        favoritesChk.forEach(function (item, key) {
+            if (favorites) {
+                if (favorites.has(item.dataset.dish)) {
+                    item.checked = true;
+                }
+            }
+        })
     }
+
+
+
+
     /*
    creamos el listener para el boton de alérgenos.
    */
     bindAllergens(handler) {
-        document.getElementById('aller').addEventListener('click', (event) => {
-            handler();
-        })
+        let aller = document.getElementById('aller');
+        if (aller) {
+            aller.addEventListener('click', (event) => {
+                handler();
+            });
+        }
+
+        // document.getElementById('aller').addEventListener('click', (event) => {
+        //     handler();
+        // })
 
     }
     /*
@@ -141,9 +183,17 @@ class RestaurantManagerView {
    creamos el listener para el boton de menús.
    */
     bindMenus(handler) {
-        document.getElementById('menu').addEventListener('click', (event) => {
-            handler();
-        })
+        let menu = document.getElementById('menu');
+        if (menu) {
+            menu.addEventListener('click', (event) => {
+                handler();
+            });
+        }
+
+
+        // document.getElementById('menu').addEventListener('click', (event) => {
+        //     handler();
+        // })
 
     }
     /*
@@ -169,9 +219,16 @@ class RestaurantManagerView {
    creamos el listener para el boton de menús.
    */
     bindRestaurants(handler) {
-        document.getElementById('rest').addEventListener('click', (event) => {
-            handler();
-        })
+
+        let rest = document.getElementById('rest');
+        if (rest) {
+            rest.addEventListener('click', (event) => {
+                handler();
+            });
+        }
+        // document.getElementById('rest').addEventListener('click', (event) => {
+        //     handler();
+        // })
 
     }
     /*
@@ -302,11 +359,11 @@ class RestaurantManagerView {
         for (const dish of dishes) {
             itemlist.insertAdjacentHTML('afterbegin',
                 `<div class='card'>
-                <img src='./images/dish.jpg' alt='aller1' data-dish='${dish.name}'>
-                <div class='container'>
-                    <li data-dish='${dish.name}'>${dish.name}</li>
+                    <img src='./images/dish.jpg' alt='dish' data-dish='${dish.name}'>
+                    <div class='container'>
+                        <li data-dish='${dish.name}'>${dish.name}</li>
+                    </div>
                 </div>
-            </div>
             `)
         }
     }
@@ -324,10 +381,10 @@ class RestaurantManagerView {
         let imagenList = this.main.querySelectorAll('.card img');
         imagenList.forEach(function (item, key) {
             item.addEventListener('click', (event) => {
+                // console.log('activada imagen');
                 handler(event.currentTarget.dataset.dish);
             })
         })
-
     }
 
     /**
@@ -468,7 +525,10 @@ class RestaurantManagerView {
                 handler(event.currentTarget.dataset.dish);
             })
         })
+        ////////////////// listener de platos favoritos movido a apartado tarea 7 ////////////////
     }
+
+
     /**
      * listener para los menus en la vista de menus
      * @param {*} handler 
@@ -573,13 +633,36 @@ class RestaurantManagerView {
                         <h4>Localización</h4>
                         <ul id="coordenadas">                            
                         </ul>
+                    </article>
+                    <article class="mapa" id="mapa">
+                        <h4>Mapa</h4>
                     </article>        
                 </section>`);
         let coordenadas = document.getElementById('coordenadas');
+        let mapa = document.getElementById('mapa');
         if (restaurant.location) {
             coordenadas.insertAdjacentHTML('beforeend',
-                `<li>${restaurant.location.latitude} , 
-            ${restaurant.location.longitude}</li>`);
+                `<li>${restaurant.location.latitude}</li>
+            <li>${restaurant.location.longitude}</li>`);
+
+            mapa.replaceChildren();
+            mapa.insertAdjacentHTML('afterbegin',
+                '<div class="container"><div id = "mapiddetail"></div></div>');
+            const mapContainer = document.getElementById('mapiddetail');
+            mapContainer.style.height = '250px';
+            mapContainer.style.border = '2px solid #faa541';
+            mapContainer.style.borderRadius = '5px';
+            let map = L.map('mapiddetail')
+                .setView([restaurant.location.latitude, restaurant.location.longitude], 15);
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BYSA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                maxZoom: 18
+            }).addTo(map);
+            let marker = L.marker([restaurant.location.latitude, restaurant.location.longitude]).addTo(map);
+            marker.bindPopup(`<strong>${restaurant.name}</strong><br>${restaurant.description}`).openPopup();
+
+
+
         } else {
             coordenadas.insertAdjacentHTML('beforeend',
                 `<li>Sin información</li>`);
@@ -644,32 +727,38 @@ class RestaurantManagerView {
      * @param {*} dishes 
      */
     showRandomDish(dishes) {
-        this.randomDish.replaceChildren();
-
+        console.log(dishes);
+        this.footer.replaceChildren();
+        this.footer.insertAdjacentHTML('beforeend',
+            `<h3>Platos del día</h3>
+            <section id="randomdish" class="random-list"></section>
+            `);
+        let randomDish = document.getElementById('randomdish');
         for (const dish of dishes) {
-            this.randomDish.insertAdjacentHTML('afterbegin',
+            randomDish.insertAdjacentHTML('afterbegin',
                 `<div class='card'>
-                <img src='./images/dish.jpg' alt='aller1' data-dish='${dish.name}'>
+                    <img src='./images/dish.jpg' alt='aller1' data-dish='${dish.name}'>
                 <div class='container'>
                     <li data-dish='${dish.name}'>${dish.name}</li>
                 </div>
             </div>
             `)
         }
-
     }
+
     /**
      * listener para los platos aleatorios.
      * @param {} handler 
      */
     bindRandomDish(handler) {
-        let randomDish = this.randomDish.querySelectorAll('.container li');
+        let randomDishId = document.getElementById('randomdish');//ojo con el nombre de la variable
+        let randomDish = randomDishId.querySelectorAll('.container li');
         randomDish.forEach(function (item, key) {
             item.addEventListener('click', (event) => {
                 handler(event.currentTarget.dataset.dish);
             })
         })
-        let imagenList = this.randomDish.querySelectorAll('.card img');
+        let imagenList = randomDishId.querySelectorAll('.card img');
         imagenList.forEach(function (item, key) {
             item.addEventListener('click', (event) => {
                 handler(event.currentTarget.dataset.dish);
@@ -706,7 +795,10 @@ class RestaurantManagerView {
             <option class='option' value='menugest' data-option='menugest'>Gestión Menús</option>
             <option class='option' value='categorygest' data-option='categorygest'>Gestión Categorías</option>
             <option class='option' value='newrest' data-option='newrest'>Nuevo Restaurante</option>
-            <option class='option' value='dishcategory' data-option='dishcategory'>Gestión Platos y Categorías</option>          
+            <option class='option' value='dishcategory' data-option='dishcategory'>Gestión Platos y Categorías</option>
+            <option class='option' value='backup' data-option='backup'>Backup</option>
+            <option class='option' value='geocoder' data-option='geocoder'>Geocoder</option>
+
             `);
     }
 
@@ -789,6 +881,7 @@ class RestaurantManagerView {
         );
         let modal = document.getElementById("myModal");
 
+
         //gestion de categorias
         let categorySl = document.getElementById('categorySl');
         categories.forEach(function (value, key) {
@@ -852,24 +945,37 @@ class RestaurantManagerView {
         let addDishBt = document.getElementById('agregarDishBt');
         addDishBt.addEventListener('click', (event) => {
             let dish = {};
-            let name = document.getElementById('name').value;
-            let description = document.getElementById('description').value;
+            let name = document.getElementById('name');
+            name.addEventListener('invalid',function(){
+                this.setCustomValidity('Introduce un nombre para el plato');
+            })
+            name.addEventListener('change',function(){
+                this.setCustomValidity('');
+            })
+            let description = document.getElementById('description');
+            description.addEventListener('invalid',function(){
+                this.setCustomValidity('Introduce una descripción para el plato');
+            })
+            description.addEventListener('change',function(){
+                this.setCustomValidity('');
+            })
+
             let imageFormat = document.getElementById('image');
             let image = imageFormat.value;
 
             //imagen
             if (!image) {
-                image = './images/rest.jpg';
+                image = './images/dish.jpg';
             }
 
 
             let category = document.getElementById('categorySl').value;
-
+          
 
             if (name && description && category) {
                 event.preventDefault();
-                dish.name = name;
-                dish.description = description;
+                dish.name = name.value;
+                dish.description = description.value;
                 dish.ingredients = listaIngredientes;
                 dish.image = image;
                 handler(dish, category, listaAlergenos);
@@ -926,7 +1032,7 @@ class RestaurantManagerView {
         let dishSl = document.getElementById('dishSl');
         dishes.forEach(function (value, key) {
             dishSl.insertAdjacentHTML('beforeend',
-                `<option value='${key}'>${key}</option>`
+                `<option value='${key}'data-dish='${key}'>${key}</option>`
             )
         });
 
@@ -951,7 +1057,6 @@ class RestaurantManagerView {
         this.gestionModal();
 
     }
-
 
     showMenuGestModal(handler, menus, dishes) {
         this.header.insertAdjacentHTML('afterbegin',
@@ -1416,19 +1521,25 @@ class RestaurantManagerView {
      * @param {*} item 
      */
     showAlarmModal(item) {
-        alert('El elemento ' + item.name + ' ya existe en esta colección');
+        let mensaje='El elemento ' + item.name + ' ya existe en esta colección';
+        // alert('El elemento ' + item.name + ' ya existe en esta colección');
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
+        this.showAuxiliarModal(mensaje);
     }
     showConfirmModal(item) {
-        alert('El elemento ' + item.name + ' se ha guardado en la colección');
+        // alert('El elemento ' + item.name + ' se ha guardado en la colección');
+        let mensaje='El elemento ' + item.name + ' se ha guardado en la colección';
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
+        this.showAuxiliarModal(mensaje);
     }
     showDeleteModal(item) {
-        alert('El elemento ' + item.name + ' se ha eliminado de la colección');
+        // alert('El elemento ' + item.name + ' se ha eliminado de la colección');
+        let mensaje='El elemento ' + item.name + ' se ha eliminado de la colección';
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
+        this.showAuxiliarModal(mensaje);
     }
     gestionModal() {
         let modal = document.getElementById("myModal");
@@ -1459,6 +1570,467 @@ class RestaurantManagerView {
     checkFileSize(file, size) {
         return (file.size > size * 1024);
     }
+
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+
+    showHeader() {
+        let beginning = document.getElementById('beginning');
+        beginning.replaceChildren();
+        beginning.insertAdjacentHTML('beforeend',
+            `                                   
+                    <div class="dropdown">
+                        <a class="dropbtn"  title="Muestra los restaurantes">Restaurantes <i class="arrow down"></i></a>
+                        <div class="dropdown-content" id="contenidorest"></div>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropbtn" title="Muestra las categorías.">Categorias <i class="arrow down"></i></a>
+                        <div class="dropdown-content" id="contenidocat"></div>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropbtn" title="Opciones.">Opciones <i class="arrow down"></i></a>
+                        <div class="dropdown-content" id="contenidoopcion"></div>
+                    </div>
+                    <div>
+                        <a href="#randomdish" title="Te lleva a los platos aleatorios">Platos del día</a>
+                    </div>
+                    
+                    <div>
+                        <a id='favoriteList' class="dropbtn" title="Platos Favoritos">Favoritos</a>                        
+                    </div>
+                    <div>
+                        <a id='mapView' class="dropbtn" title="Mapa de Restaurantes">Mapa</a>                        
+                    </div>
+                
+            `);
+    }
+    bindHeader(handler) {
+
+    }
+
+    showCookieMessage() {
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                        <div id="myModal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <section class='headerform'>
+                                    <div>
+                                        <h3>Aviso de uso de cookies</h3>
+                                    </div>                                    
+                                        <a class="close">&times;</a>                                
+                                </section>
+                                <section>                                    
+                                    <p>
+                                    Este sitio web almacena datos en cookies para activar su
+                                    funcionalidad. Dichos datos son de carácter analítico 
+                                    y de personalización. Para poder usar este sitio, estás 
+                                    aceptando automaticamente que utilizamos cookies.                                    
+                                    </p>
+                                    <button id='acceptcookieBt'>Aceptar</button>
+                                    <button id='cancelcookieBt'>Cancelar</button>                                
+                                </section>                               
+
+                                </div>
+                        </div>`);
+
+        this.gestionModal();
+    }
+
+    showDeniedCookie() {
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                        <div id="myModal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                               
+                                <section>      
+                                <a class="close">&times;</a><br>                              
+                                    <p>Para usar este sitio necesitas aceptar las cookies.
+                                    Pulsa en inicio o recarga la página para aceptar.
+                                    </p>  
+                                                                                               
+                                </section>                               
+
+                                </div>
+                        </div>`);
+
+        this.gestionModal();
+    }
+
+    bindShowCookieMessage(handler) {
+        let modal = document.getElementById('myModal');
+        let acceptcookieBt = document.getElementById('acceptcookieBt');
+        acceptcookieBt.addEventListener('click', () => {
+            setCookie('accetedCookieMessage', 'true', 1);
+            console.log('cookie creada');
+            handler('true');
+            modal.style.display = "none";
+        });
+        let cancelcookieBt = document.getElementById('cancelcookieBt');
+        cancelcookieBt.addEventListener('click', () => {
+            console.log('cookie rechazada');
+            modal.style.display = "none";
+            handler('false');
+
+
+        })
+    }
+
+
+
+    showLoginModal(handler) {
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                    <div id="myModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <section class='headerform'>
+                                <div>
+                                    <h3>Login</h3>
+                                </div>                                    
+                                    <a class="close">&times;</a>                                
+                            </section>
+                            <section>                                    
+                               
+                            <form name='loginform' role='form'>
+                            
+                                <label for="email"><b>Usuario</b></label>
+                                <input type="text" placeholder="nombre" name="nombre"id='nameUser' required>
+                            
+                                <label for="psw"><b>Password</b></label>
+                                <input type="password" placeholder="password" name="psw" id='passUser'required>
+                            
+                                <button type="submit" id='loginModalBt'>Login</button>
+                                <button type="reset" id='cancelLoginBt' >Cancelar</button>
+                            </form>                                
+                            </section>                               
+
+                            </div>
+                    </div>`);
+        let modal = document.getElementById('myModal');
+        let loginModalBt = document.getElementById('loginModalBt');
+        let name = document.getElementById('nameUser');
+        name.focus();
+        let pass = document.getElementById('passUser');
+        loginModalBt.addEventListener('click', (event) => {
+            if (name.value && pass.value) {
+                event.preventDefault();
+                handler(name.value, pass.value);
+                modal.style.display = "none";
+            }
+
+        })
+        //gestion de boton cancelar
+        let cancelLoginBt = document.getElementById('cancelLoginBt');
+        cancelLoginBt.addEventListener('click', () => {
+            modal.style.display = "none";
+        })
+        this.gestionModal();
+    }
+
+    showInvalidUserMessage(name) {
+        alert('Los datos del usuario ' + name + ' no son correctos');
+    }
+
+    showProfileUser() {
+        // console.log(name);
+
+        let profileUser = document.getElementById(`profileUser`);
+        profileUser.replaceChildren();
+        profileUser.insertAdjacentHTML('beforeend', `
+        <article id='loginArt'>
+            <a id="loginBt" class="dropbtn" title="Cerrar Sesión">Hola admin <i class="arrow down"></i> </a>                        
+        </article>
+        `)
+    }
+    bindLoginModal(handler) {
+        let loginBt = document.getElementById('loginBt');
+        loginBt.addEventListener('click', () => {
+            handler();
+        })
+    }
+    showCloseSessionModal(handler) {
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                    <div id="myModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <section class='headerform'>
+                                <div>
+                                    <h3>Cierre de sesión</h3>
+                                </div>                                    
+                                    <a class="close">&times;</a>                                
+                            </section>
+                            <section>   
+                            <p>¿Seguro que quieres cerrar la sesión?
+                            </p>                                 
+                            
+                                <button id='closeSessionBt'>Cerrar sesión</button>
+                                <button id='cancelCloseBt'>Cancelar</button>
+                                                       
+                            </section>                               
+
+                            </div>
+                    </div>`);
+        let modal = document.getElementById('myModal');
+        let closeSessionBt = document.getElementById('closeSessionBt');
+        closeSessionBt.addEventListener('click', (event) => {
+            setCookie('userRegistered', '', 0);
+            modal.style.display = "none";
+            console.log('cookie eliminada');
+            handler('false');
+        })
+
+        let cancelCloseBt = document.getElementById('cancelCloseBt');
+        cancelCloseBt.addEventListener('click', () => {
+            modal.style.display = "none";
+        })
+
+        this.gestionModal();
+
+    }
+
+    showEmptyView() {
+        this.main.replaceChildren();
+        this.footer.replaceChildren();
+        this.nav.replaceChildren();
+        let beginning = document.getElementById('beginning');
+        beginning.replaceChildren();
+        let profileUser = document.getElementById(`profileUser`);
+        profileUser.replaceChildren();
+
+        // this.cat = document.getElementById('cat');
+        // this.randomDish = document.getElementById('randomdish');
+    }
+    /**
+     * enviamos el plato seleccionado a través de su checkbox
+     * @param {*} handler 
+     */
+    bindFavoritesDishes(handler) {
+        let switchList = this.main.querySelectorAll('.favoriteDish');
+        switchList.forEach(function (item, key) {
+            item.addEventListener('click', (event) => {
+                console.log("activado");
+                handler(event.currentTarget.dataset.dish);
+            })
+        })
+    }
+
+    showFavoritesDishes(favorites) {
+        // console.log(favorites)
+        this.main.replaceChildren();
+        this.main.insertAdjacentHTML('afterbegin',
+            `<h2>Favoritos</h2>
+        <section class='item-list' id='itemlist'></section>
+        `);
+        let itemlist = document.getElementById('itemlist');
+        for (const [key, value] of favorites) {
+            itemlist.insertAdjacentHTML('afterbegin',
+                `<div class='card'>
+                    <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
+                    <div class='container'>
+                        <li data-dish='${key}'>${key}</li>
+                    </div>
+                    <div>
+                    <label class="switch">                 
+                        <input type="checkbox" class="favoriteDish" data-dish='${key}'>
+                        <span class="slider round"></span>
+                    </label> 
+                    </div>                
+                 </div>
+                </div>
+            `)
+        }
+        let favoritesChk = document.querySelectorAll('.switch input');
+        favoritesChk.forEach(function (item, key) {
+            if (favorites) {
+                if (favorites.has(item.dataset.dish)) {
+                    item.checked = true;
+                }
+            }
+        })
+    }
+
+
+
+
+
+    bindFavoriteDishes(handler) {
+        let favoriteList = document.getElementById('favoriteList');
+        favoriteList.addEventListener('click', (event) => {
+            handler();
+        })
+    }
+
+    bindMapView(handler) {
+        let mapView = document.getElementById('mapView');
+        mapView.addEventListener('click', (event) => {
+            handler();
+        })
+    }
+
+    showRestaurantMap(restaurants) {
+        this.main.replaceChildren();
+
+        this.main.insertAdjacentHTML('afterbegin',
+            '<div class="container"><div id = "mapid"></div></div>');
+        const mapContainer = document.getElementById('mapid');
+        mapContainer.style.height = '500px';
+        mapContainer.style.border = '2px solid #faa541';
+        mapContainer.style.borderRadius = '5px';
+        let map = L.map('mapid');
+        for (const restaurant of restaurants.values()) {
+            map
+                .setView([restaurant.location.latitude, restaurant.location.longitude], 15);
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BYSA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                maxZoom: 18
+            }).addTo(map);
+            let marker = L.marker([restaurant.location.latitude, restaurant.location.longitude]).addTo(map);
+            marker.bindPopup(`<strong>${restaurant.name}</strong><br>${restaurant.description}`).openPopup();
+        }
+    }
+
+    showGeocoderModal(restaurants) {
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                        <div id="myModal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <section class='headerform'>
+                                    <div>
+                                        <h3>Localiza tu restaurante</h3>
+                                    </div>                                    
+                                        <a class="close">&times;</a>                                
+                                </section>
+                                
+                                <form role="form">
+                                    <section class="formclass">                                    
+                                        <article id='categoptions'>                                 
+                                            <div class="form-group">
+                                                <label for="restaurant">Restaurantes:</label>
+                                                <select class="formcontrol" id="restListGeo" name="restaurant" required>
+                                                    <option value=''>Selecciona un restaurante...</option>
+                                                </select>
+                                            </div> 
+                                            <div id="geoMapDetails"> </div>
+                                        </article>  
+                                        <article id="geoMap">
+                                        </article>
+                                    </section>
+                                    <section>
+                                        <button type="reset" id='resetBt'>Cancelar</button>
+                                    </section>
+                                </form>
+                            </div>
+                        </div>`);
+
+        let restListGeo = document.getElementById('restListGeo');
+        restListGeo.replaceChildren();
+        restaurants.forEach(function (value, key) {
+            restListGeo.insertAdjacentHTML('beforeend',
+                `<option value='${key}'data-rest='${key}'>${key}</option>`
+            )
+        });
+
+        //gestion de boton cancelar
+        let modal = document.getElementById("myModal");
+        let resetBt = document.getElementById('resetBt');
+        resetBt.addEventListener('click', () => {
+            modal.style.display = "none";
+        })
+
+        let geoMap = document.getElementById('geoMap');
+        let geoMapDetails = document.getElementById('geoMapDetails');
+        restListGeo.addEventListener('change', (event) => {
+            console.log(restListGeo.value);
+            let restaurantSelected = restListGeo.value;
+
+            for (const restaurant of restaurants.values()) {
+
+
+                if (restaurant.location) {
+                    if (restaurantSelected === restaurant.name) {
+                        geoMapDetails.replaceChildren();
+                        geoMapDetails.insertAdjacentHTML('afterbegin',
+                            `<h3>${restaurant.name}</h3>
+                            <li>${restaurant.description}</li>`
+                        );
+
+                        geoMap.replaceChildren();
+                        geoMap.insertAdjacentHTML('afterbegin',
+                            '<div class="container"><div id = "mapiddetail"></div></div>');
+                        const mapContainer = document.getElementById('mapiddetail');
+                        mapContainer.style.height = '250px';
+                        mapContainer.style.border = '2px solid #faa541';
+                        mapContainer.style.borderRadius = '5px';
+                        let map = L.map('mapiddetail')
+                            .setView([restaurant.location.latitude, restaurant.location.longitude], 15);
+                        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BYSA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                            maxZoom: 18
+                        }).addTo(map);
+                        let marker = L.marker([restaurant.location.latitude, restaurant.location.longitude]).addTo(map);
+                        marker.bindPopup(`<strong>${restaurant.name}</strong><br>${restaurant.description}`).openPopup();
+                    }
+                } else {
+
+                }
+            }
+        })//
+        this.gestionModal();
+
+    }
+
+    showAuxiliarModal(mensaje) {
+
+        this.header.insertAdjacentHTML('afterbegin',
+            `<!-- MODAL -->
+                        <div id="myModal" class="modal">
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                
+                                
+                                
+                                    <section class="formclass">                                    
+                                        <article id='categoptions'>                                 
+                                            <div class="form-group">
+                                                <h4>${mensaje}</h4>
+                                            </div> 
+                                            <div id="geoMapDetails"> </div>
+                                        </article>  
+                                        
+                                    </section>
+                                    <section>
+                                        <button type="reset" id='resetBt'>Aceptar</button>
+                                    </section>
+                                
+                            </div>
+                        </div>`);
+        //gestion de boton cancelar
+        let modal = document.getElementById("myModal");
+        let resetBt = document.getElementById('resetBt');
+        resetBt.addEventListener('click', () => {
+            modal.style.display = "none";
+        })
+
+        this.gestionModal();
+    }
+
+
+
+
+
+
+
+
+
+
 
 }//fin de clase
 

@@ -102,11 +102,23 @@ class CategoryNotExistException extends BaseException {
 }
 
 /**
+ * TAREA 7
+ * Excepción específica a modo de prueba para la clase Category.
+ */
+class AuthenticationServiceException extends BaseException {
+    constructor(value) {
+        super(message,filename,linenumber);
+        this.name = "AuthenticationServiceException";
+    }
+}
+
+
+/**
  * exportamos todas las clases de Excepciones menos la "padre".
  */
 export {
     UnexpectedObjectException, ValueEmptyException,
     InvalidConstructorException, ItemNotFoundException,
     ObjectAlreadyExistsException,CategoryNotExistException,
-    NullObjectException
+    NullObjectException,AuthenticationServiceException
 };

@@ -1,12 +1,15 @@
 CONSIDERACIONES
  
  version 1
+ ===============
  
  https://github.com/anvil555/restaurante.git
  
  
  
  version 2
+ ===============
+
 
  Aunque están implementados, no he podido hacer que funcione la validacion del 
  input tipo file.
@@ -20,7 +23,53 @@ CONSIDERACIONES
  los listener los he tenido que implementar directamente en las vistas  en lugar 
  de en los métodos bind porque me daban problemas de funcionalidad 
  y andaba justo de tiempo. 
+
  Para la versión 3 si la hay, intentaré solucionarlo.
 
  Por lo demás creo que funciona todo.
  
+ version 3
+ ===============
+
+ elimino el metodo onInit y centralizo el arranque de la pagina en el 
+ metodo onCharge para añadir la funcionalidad de las cookies.
+ Modifico el diseño de la cabecera para hacerla flexible 
+ 
+ para mantener la sesión de usuario iniciada creo una 
+ cookie cuando me registro en el formulario que expira con la sesión del navegador.
+
+ si no aceptas las cookies la pagina no funciona
+ si no estás registrado la pagina no funciona.
+
+ añado un checkbox para guardar un dato en localStorage con el nombre
+ del plato como favorito. se actualizan las vistas y se elimina del 
+ almacenamiento local cuando se elimina el plato de la coleccion.
+ Se dan altas y bajas de favoritos desde el menu platos y desde favoritos.
+
+ Para generar el archivo data.json he obtenido los datos formateados de la propia aplicacion en los 
+ métodos getAllergens, getDishes,etc. del modelo, generando los json por consola. De esta 
+ manera he mantenido las relaciones que ya se habian asignado manualmente 
+ en las versiones anteriores.
+
+ Para dar persistencia a la colección en un archivo JSON lo he creado a partir de una 
+ cadena de texto y añadiendo los caracteres necesarios para dar el formato que 
+ necesita la aplicacion.
+
+Subsanado el error al crear un plato en una categoría que no existía previamente 
+(restaurantmanagerModel.js:360:60). El error solo se producía si la nueva categoria todavia
+no tenia asignado ningun plato. (restaurantManagerController.js:317:9).
+
+El geocoder se integra a partir de un select donde se selecciona el restaurante de la coleccion que 
+se quiere mostrar en el mapa.
+
+Se modifica el estilo de los mensajes de feedback para integrarlos en el estilo de la pagina.
+
+Se cargan los datos de la página a partir de un archivo de Backup generado previamente para 
+probar el archivo JSON generado.
+
+Mensajes personalizados en la validacion de creacion de un nuevo plato.
+ 
+ 
+
+ 
+

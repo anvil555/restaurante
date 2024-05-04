@@ -644,11 +644,9 @@ const Manager = (function () {
                 literal.dish = this.#dishes.get(dish);
             }
 
-            // literal.category=[];
             this.#categories.forEach(function (value, key) {
                 if (value.dishes) {
                     if (value.dishes.has(dish)) {
-                        // literal.dish = value.dishes.get(dish);
                         literal.category = value.category;
                     }
                 }
@@ -669,6 +667,9 @@ const Manager = (function () {
                     }
                 }
             })
+
+
+
             return literal;
         }
 
@@ -698,15 +699,20 @@ const Manager = (function () {
          */
 
         createDish(name, description, image, ...ingredients) {
-            if (!name) { throw new ValueEmptyException("name"); } let dish;
-            let control = false; this.#dishes.forEach(function (value, key) {
+            if (!name) { throw new ValueEmptyException("name"); }
+            let dish;
+            let control = false;
+            this.#dishes.forEach(function (value, key) {
                 if (key === name) {
                     control = true;
                 }
             })
             if (control === false) {
                 dish = new Dish(name, description);
-                dish.image = image;
+                if (image) {
+                    dish.image = image;
+                }
+
                 // console.log(dish);
                 for (let ing of ingredients) {
                     for (let temp of ing) {
@@ -719,23 +725,6 @@ const Manager = (function () {
             return dish;
         }
 
-        /**
-         * 
-         * @param {*} dish 
-         * @returns
-         * metodo modificado y adaptado para esta version del proyecto
-         * que añade un plato a la coleccion si no existe
-         * y devuelve falso si ya existe. 
-         */
-        // createDish(dish) {
-        //     let control = false;
-        //     if (!this.#dishes.has(dish.name)) {
-        //         this.addDish(dish);
-        //         // console.log("plato añadido");
-        //         control = true;
-        //     }
-        //     return control;
-        // }
         /**
          * Funcion que crea un menu o devuelve el que ya está registrado.
          * 
@@ -790,6 +779,7 @@ const Manager = (function () {
                 } else {
                     allergen.description = description;
                 }
+                this.addAllergen(allergen);
             }
             return allergen;
         }
@@ -812,6 +802,7 @@ const Manager = (function () {
             if (control === false) {
                 category = new Category(name, description);
                 this.addCategory(category);
+                // console.log("categoria " + name + " creada")
             }
             return category;
         }
@@ -844,7 +835,7 @@ const Manager = (function () {
          * @returns 
          */
         getNumberDishes() {
-            
+
             return this.#dishes.size;
         }
         /**
@@ -865,6 +856,33 @@ const Manager = (function () {
          */
         getCategories() {
             // return this.#categories;
+
+            // let arrayJson = [];
+            // this.#categories.forEach(function (value, key) {
+            //     let literal = {};
+
+
+            //     if (value.dishes) {
+            //         let arrayAller = [];
+            //         literal.category={};
+            //         literal.category.name = value.category.name;
+            //         literal.category.description = value.category.description;
+            //         value.dishes.forEach(function (valor, clave) {
+
+            //             console.log(valor);
+            //             arrayAller.push({ name: valor.name, description: valor.description, ingredients: valor.ingredients });
+            //             literal.dishes = arrayAller;
+            //         })
+
+
+            //     } else {
+            //         literal.name = value.name;
+            //         literal.description = value.description;
+            //     }
+            //     arrayJson.push(literal);
+            // })
+            // console.log(JSON.stringify(arrayJson));
+
             const array = Array.from(this.#categories);
             const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
             const sortedMap = new Map(sortedArray);
@@ -876,20 +894,62 @@ const Manager = (function () {
          */
         getDishes() {
             // return this.#dishes;
+
+            ///para crear un json de los platos//
+
+            // let arrayJson=[];
+            // this.#dishes.forEach(function (value, key) {
+            //     let literal = {};
+            //     literal.name = value.name;
+            //     literal.description = value.description;
+            //     literal.image="";
+            //     literal.ingredients = value.ingredients;
+            //     arrayJson.push(literal);
+            // })
+            // console.log(JSON.stringify(arrayJson));
+
             const array = Array.from(this.#dishes);
             const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
             const sortedMap = new Map(sortedArray);
             return sortedMap;
 
-
-            
         }
+
         /**
          * 
          * @returns 
          */
         getAllergens() {
             // return this.#allergens;
+            ///para crear un json de los platos//
+
+            // let arrayJson = [];
+            // this.#allergens.forEach(function (value, key) {
+            //     let literal = {};
+
+
+            //     if (value.dishes) {
+            //         let arrayAller = [];
+            //         literal.allergen={};
+            //         literal.allergen.name = value.allergen.name;
+            //         literal.allergen.description = value.allergen.description;
+            //         value.dishes.forEach(function (valor, clave) {
+
+            //             console.log(valor);
+            //             arrayAller.push({ name: valor.name, description: valor.description, ingredients: valor.ingredients });
+            //             literal.dishes = arrayAller;
+            //         })
+
+
+            //     } else {
+            //         literal.name = value.name;
+            //         literal.description = value.description;
+            //     }
+            //     arrayJson.push(literal);
+            // })
+            // console.log(JSON.stringify(arrayJson));
+
+
             const array = Array.from(this.#allergens);
             const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
             const sortedMap = new Map(sortedArray);
@@ -901,6 +961,33 @@ const Manager = (function () {
          */
         getMenus() {
             // return this.#menus;
+
+            // let arrayJson = [];
+            // this.#menus.forEach(function (value, key) {
+            //     let literal = {};
+
+
+            //     if (value.dishes) {
+            //         let arrayAller = [];
+            //         literal.menu={};
+            //         literal.menu.name = value.menu.name;
+            //         literal.menu.description = value.menu.description;
+            //         value.dishes.forEach(function (valor, clave) {
+
+            //             // console.log(valor);
+            //             arrayAller.push({ name: valor.name, description: valor.description, ingredients: valor.ingredients });
+            //             literal.dishes = arrayAller;
+            //         })
+
+
+            //     } else {
+            //         literal.name = value.name;
+            //         literal.description = value.description;
+            //     }
+            //     arrayJson.push(literal);
+            // })
+            // console.log(JSON.stringify(arrayJson));
+
             const array = Array.from(this.#menus);
             const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
             const sortedMap = new Map(sortedArray);
@@ -912,6 +999,17 @@ const Manager = (function () {
          */
         getRestaurants() {
             // return this.#restaurants;
+            // let arrayJson = [];
+            // this.#restaurants.forEach(function (value, key) {
+            //     let literal = {};
+            //         literal.name = value.name;
+            //         literal.description = value.description;
+            //         literal.location={latitude:value.location.latitude,longitude:value.location.longitude};
+
+            //     arrayJson.push(literal);
+            // })
+            // console.log(JSON.stringify(arrayJson));
+
             const array = Array.from(this.#restaurants);
             const sortedArray = array.sort((a, b) => String(a[0]).localeCompare(b[0]));
             const sortedMap = new Map(sortedArray);
@@ -972,30 +1070,318 @@ const Manager = (function () {
                 if (value.dishes.has(dish.name)) {
                     // this.deassignDishToMenu(value.menu,dish);
                     value.dishes.delete(dish.name);
-                    console.log(dish.name + " " + value.menu.name);
                 }
             })
             this.#categories.forEach(function (value, key) {
                 if (value.dishes.has(dish.name)) {
                     // this.deassignCategoryToDish(value.category,dish);
                     value.dishes.delete(dish.name);
-                    console.log(dish.name + " " + value.category.name);
                 }
             })
             this.#allergens.forEach(function (value, key) {
-                if (value.dishes.has(dish.name)) {
-                    // this.deassignAllergenToDish(value.allergen,dish);
-                    value.dishes.delete(dish.name);
-                    console.log(dish.name + " " + value.allergen.name);
-                }
-            })
+                if (value.dishes) {
+                    if (value.dishes.has(dish.name)) {
+                        // this.deassignAllergenToDish(value.allergen,dish);
+                        value.dishes.delete(dish.name);
 
+                    }
+                }
+
+            })
+            // console.log(this.#allergens);
+
+        }
+        /**********************   TAREA 7  *****************************/
+        /**********************   TAREA 7  *****************************/
+        /**********************   TAREA 7  *****************************/
+        /**********************   TAREA 7  *****************************/
+        /**********************   TAREA 7  *****************************/
+        /**********************   TAREA 7  *****************************/
+
+        saveFavoriteDish(dish) {
+            if (!localStorage.getItem(dish)) {
+                console.log('almacenado ' + dish);
+                localStorage.setItem(dish, dish);
+            }
+        }
+
+        removeFavoriteDish(dish) {
+            if (localStorage.getItem(dish)) {
+                console.log('eliminado ' + dish);
+                localStorage.removeItem(dish);
+            }
+        }
+        getFavoriteDishes() {
+            let map = new Map();
+            for (let i = 0, key; i < localStorage.length; i++) {
+                key = localStorage.key(i);
+                map.set(key, localStorage.getItem(key));
+            }
+            const array = Array.from(map);
+            const sortedArray = array.sort((a, b) => String(b[0]).localeCompare(a[0]));//ojo al revés!!
+            const sortedMap = new Map(sortedArray);
+            return sortedMap;
         }
 
 
+        /**
+         * Metodo que carga un archivo JSON con los datos de la aplicacion.
+         * en este caso lo carga de una copia de seguridad confeccionada previamente.
+         */
+
+        onLoadJSON() {
+
+            //  fetch("data.json")
+            fetch("Backup/Backup-4-5-2024-10_15_1.json")
+            
+                .then((response) => response.json())
+
+                .then((data) => {
+                    // console.log(data);
+                    if (data.dishes) {
+                        for (const dish of data.dishes) {
+                            this.createDish(dish.name, dish.description,
+                                dish.image, dish.ingredients);
+                        }
+                    }
+                    if (data.categories) {
+                        for (const category of data.categories) {
+                            if (category.dishes) {
+                                let newCategory = this.createCategory(category.category.name, category.category.description);
+                                for (const dish of category.dishes) {
+                                    if (this.findDish(dish.name)) {
+                                        this.assignCategoryToDish(newCategory, this.findDish(dish.name));
+                                    } else {
+                                        let newDish = this.createDish(dish.name, dish.description,
+                                            dish.image, dish.ingredients);
+                                        this.assignCategoryToDish(newCategory, newDish);
+                                    }
+                                }
+                            } else {
+                                this.createCategory(category.name, category.description)
+                            }
+                        }
+                    }
+                    if (data.allergens) {
+                        for (const allergen of data.allergens) {
+                            if (allergen.dishes) {
+                                let newAllergen = this.createAllergen(allergen.allergen.name, allergen.allergen.description);
+                                for (const dish of allergen.dishes) {
+                                    if (this.findDish(dish.name)) {
+                                        this.assignAllergenToDish(this.findDish(dish.name), newAllergen);
+                                    } else {
+                                        let newDish = this.createDish(dish.name, dish.description,
+                                            dish.image, dish.ingredients);
+                                        this.assignAllergenToDish(newDish, newAllergen);
+                                    }
+                                }
+                            } else {
+                                this.createAllergen(allergen.name, allergen.description);
+                            }
+                        }
+                    }
+                    if (data.menus) {
+                        for (const menu of data.menus) {
+                            if (menu.dishes) {
+                                let newMenu = this.createMenu(menu.menu.name, menu.menu.description);
+                                for (const dish of menu.dishes) {
+                                    if (this.findDish(dish.name)) {
+                                        this.assignDishToMenu(newMenu, this.findDish(dish.name));
+                                    } else {
+                                        let newDish = this.createDish(dish.name, dish.description,
+                                            dish.image, dish.ingredients);
+                                        this.assignDishToMenu(newMenu, dish);
+                                    }
+                                }
+                            } else {
+                                this.createMenu(menu.name, menu.description);
+                            }
+                        }
+                    } if (data.restaurants) {
+                        for (const restaurant of data.restaurants) {
+                            this.createRestaurant(restaurant.name, restaurant.description, restaurant.location.latitude, restaurant.location.longitude);
+                        }
+
+                    }
+                });
+
+        }
+
+        /**
+         * metodo para crear una cadena de texto que da formato al archivo JSON
+         * @returns 
+         */
+        saveJson() {
+            let stringJson = `{\n"dishes":[`;
+            ////////dishes///////////
+            for (let dish of this.#dishes.values()) {
+                if (dish.ingredients) {
+                    // console.log(dish.ingredients.length)
+                    stringJson += `\n{\n"name":"${dish.name}",
+                        \n"description":"${dish.description}",
+                        \n"image":"${dish.image}",
+                        \n"ingredients":[`;
+                    for (let i = 0; i < dish.ingredients.length; i++) {
+
+                        let position = dish.ingredients.indexOf(dish.ingredients[i]);
+                        // console.log(position + " " + dish.ingredients.length)
+                        position + 1 < dish.ingredients.length ? stringJson += `"${dish.ingredients[i]}",` : stringJson += `"${dish.ingredients[i]}"`;
+                    }
+                    stringJson += `]\n},`//fin de ingredientes
+
+                } else {
+                    stringJson += `\n{"name":"${dish.name}",
+                    \n"description":"${dish.description}",
+                    \n"image":"${dish.image}",
+                    \n"ingredients":[]
+                    \n}`
+                }
+                // console.log(dish.name);
+            }//fin de dishes
+            ////////categories///////////
+            stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+            stringJson += `],\n"categories":[`;
+            for (let category of this.#categories.values()) {
+                if (category.dishes) {
+                    stringJson += `\n{"category":{
+                        \n"name":"${category.category.name}",
+                        \n"description":"${category.category.description}"\n},
+                        \n"dishes":[`;
+                    for (let dish of category.dishes.values()) {
+
+                        if (dish.ingredients) {
+
+                            stringJson += `\n{\n"name":"${dish.name}",
+                                    \n"description":"${dish.description}",
+                                    \n"image":"${dish.image}",
+                                    \n"ingredients":[`;
+                            for (let i = 0; i < dish.ingredients.length; i++) {
+
+                                let position = dish.ingredients.indexOf(dish.ingredients[i]);
+                                position + 1 < dish.ingredients.length ? stringJson += `"${dish.ingredients[i]}",` : stringJson += `"${dish.ingredients[i]}"`;
+                            }
+                            stringJson += `]\n},`//fin de ingredientes
+
+                        } else {
+                            stringJson += `\n{"name":"${dish.name}",
+                                \n"description":"${dish.description}",
+                                \n"image":"${dish.image}",
+                                \n"ingredients":[]
+                                \n},`
+                        }
+                    }//fin de dishes
+                    stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+
+                    stringJson += `]\n},`//fin de dishes
+                }
+            }//fin de categories
+            ////////restaurants///////////
+            stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+            stringJson += `],\n"restaurants":[`;
+            for (let restaurant of this.#restaurants.values()) {
+                stringJson += `\n{\n"name":"${restaurant.name}",
+                \n"description":"${restaurant.description}",
+                \n"location":{
+                    \n"latitude":"${restaurant.location.latitude}",
+                    \n"longitude":"${restaurant.location.longitude}"}
+                \n},`;
+            }//fin de restaurants
+            ////////allergens///////////
+            stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+            stringJson += `],\n"allergens":[`;
+            for (let allergen of this.#allergens.values()) {
+                if (allergen.dishes) {
+                    stringJson += `\n{"allergen":{
+                        \n"name":"${allergen.allergen.name}",
+                        \n"description":"${allergen.allergen.description}"\n},
+                        \n"dishes":[`;
+                    for (let dish of allergen.dishes.values()) {
+
+                        if (dish.ingredients) {
+
+                            stringJson += `\n{\n"name":"${dish.name}",
+                                    \n"description":"${dish.description}",
+                                    \n"image":"${dish.image}",
+                                    \n"ingredients":[`;
+                            for (let i = 0; i < dish.ingredients.length; i++) {
+
+                                let position = dish.ingredients.indexOf(dish.ingredients[i]);
+                                position + 1 < dish.ingredients.length ? stringJson += `"${dish.ingredients[i]}",` : stringJson += `"${dish.ingredients[i]}"`;
+                            }
+                            stringJson += `]\n},`//fin de ingredientes
+
+                        } else {
+                            stringJson += `\n{"name":"${dish.name}",
+                                \n"description":"${dish.description}",
+                                \n"image":"${dish.image}",
+                                \n"ingredients":[]
+                                \n},`
+                        }
+                    }//fin de dishes
+                    stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+
+                    stringJson += `]\n},`//fin de dishes
+                }
+            }//fin de allergens
+            ////////menus///////////
+            stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+            stringJson += `],\n"menus":[`;
+            for (let menu of this.#menus.values()) {
+                if (menu.dishes) {
+                    stringJson += `\n{"menu":{
+                         \n"name":"${menu.menu.name}",
+                         \n"description":"${menu.menu.description}"\n},
+                         \n"dishes":[`;
+                    for (let dish of menu.dishes.values()) {
+
+                        if (dish.ingredients) {
+
+                            stringJson += `\n{\n"name":"${dish.name}",
+                                     \n"description":"${dish.description}",
+                                     \n"image":"${dish.image}",
+                                     \n"ingredients":[`;
+                            for (let i = 0; i < dish.ingredients.length; i++) {
+
+                                let position = dish.ingredients.indexOf(dish.ingredients[i]);
+                                position + 1 < dish.ingredients.length ? stringJson += `"${dish.ingredients[i]}",` : stringJson += `"${dish.ingredients[i]}"`;
+                            }
+                            stringJson += `]\n},`//fin de ingredientes
+
+                        } else {
+                            stringJson += `\n{"name":"${dish.name}",
+                                 \n"description":"${dish.description}",
+                                 \n"image":"${dish.image}",
+                                 \n"ingredients":[]
+                                 \n},`
+                        }
+                    }//fin de dishes
+                    stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+
+                    stringJson += `]\n},`//fin de dishes
+                }
+            }//fin de menus
+            stringJson = stringJson.slice(0, stringJson.length - 1);//quitamos la coma del ultimo restaurante
+            stringJson += `\n]\n}`;//fin de json
 
 
+            // console.log(stringJson);
 
+            let formData = new FormData();
+            formData.append('jsonObj', stringJson);
+
+            fetch("writeJSONBackup.php", {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.text())
+                .then((body) => {
+                    alert("Archivo JSON guardado correctamente");
+                })
+                .catch((error) => alert("Error al realizar la copia de seguridad.", error));
+
+
+            return stringJson;
+        }
 
 
 

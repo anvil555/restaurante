@@ -1,0 +1,829 @@
+{
+    "dishes": [
+        {
+            "name": "Paella",
+            "description": "arroz con cosas",
+            "image": "",
+            "ingredients": [
+                "arroz",
+                "pollo"
+            ]
+        },
+        {
+            "name": "Fabada",
+            "description": "Asturiana y contundente.",
+            "image": "",
+            "ingredients": [
+                "judias",
+                "chorizo"
+            ]
+        },
+        {
+            "name": "Bacalao con tomate",
+            "description": "Para mojar pan",
+            "image": "",
+            "ingredients": [
+                "Bacalao",
+                "Tomate",
+                "Aceite",
+                "Cebolla"
+            ]
+        },
+        {
+            "name": "Tortilla de Patatas",
+            "description": "Plato típico",
+            "image": "",
+            "ingredients": [
+                "huevos",
+                "patata",
+                "cebolla"
+            ]
+        },
+        {
+            "name": "Arroz Tres Delicias",
+            "description": "Con tortilla",
+            "image": "",
+            "ingredients": [
+                "arroz",
+                "huevo",
+                "gambas"
+            ]
+        },
+        {
+            "name": "Gyoza de Gamba",
+            "description": "De un bocado",
+            "image": "",
+            "ingredients": [
+                "Gambas",
+                "Harina",
+                "Cebolleta",
+                "Gengibre"
+            ]
+        },
+        {
+            "name": "Chuletas de cordero",
+            "description": "Siempre triunfan",
+            "image": "",
+            "ingredients": [
+                "cordero",
+                "ajo"
+            ]
+        },
+        {
+            "name": "Chuletón de Ávila",
+            "description": "La mejor carne",
+            "image": "",
+            "ingredients": [
+                "ternera",
+                "patatas",
+                "pimientos verdes fritos"
+            ]
+        },
+        {
+            "name": "Lomo de novillo a la brasa",
+            "description": "Al punto",
+            "image": "",
+            "ingredients": []
+        },
+        {
+            "name": "Parrillada de Cerdo",
+            "description": "Hasta los andares...",
+            "image": "",
+            "ingredients": [
+                "chorizos",
+                "morcilla",
+                "panceta"
+            ]
+        },
+        {
+            "name": "Ensalada de Perdiz",
+            "description": "De nuestra tierra",
+            "image": "",
+            "ingredients": [
+                "brotes verdes",
+                "tomate cherry",
+                "perdiz"
+            ]
+        },
+        {
+            "name": "Gazpacho Andaluz",
+            "description": "En verano apetece un montón.",
+            "image": "",
+            "ingredients": [
+                "tomate",
+                "pepino",
+                "pimiento",
+                "ajo"
+            ]
+        },
+        {
+            "name": "Rodaballo al horno",
+            "description": "¡Suculento!",
+            "image": "",
+            "ingredients": [
+                "Rodaballo fresco"
+            ]
+        },
+        {
+            "name": "Lubina a la espalda",
+            "description": "Elaboración fácil",
+            "image": "",
+            "ingredients": []
+        },
+        {
+            "name": "Trucha a la navarra",
+            "description": "En la sierra",
+            "image": "",
+            "ingredients": [
+                "trucha",
+                "jamón"
+            ]
+        },
+        {
+            "name": "Gachas",
+            "description": "Hoy hace día de gachas...",
+            "image": "",
+            "ingredients": [
+                "Harina de titos",
+                "Ajos",
+                "Pimentón"
+            ]
+        },
+        {
+            "name": "Torrijas",
+            "description": "Las más tradicionales",
+            "image": "",
+            "ingredients": [
+                "Pan",
+                "lecha",
+                "canela",
+                "Azúcar"
+            ]
+        },
+        {
+            "name": "Tarta de Queso",
+            "description": "Irresistible",
+            "image": "",
+            "ingredients": [
+                "Queso Philadelphia",
+                "Azúcar",
+                "Harina"
+            ]
+        },
+        {
+            "name": "Bizcochá",
+            "description": "Hay cosas que no se pueden imitar",
+            "image": "",
+            "ingredients": [
+                "Tortas de Alcázar",
+                "Leche",
+                "Canela",
+                "Limón"
+            ]
+        }
+    ],
+    "allergens": [
+        {
+            "allergen": {
+                "name": "Trigo",
+                "description": "Intolerancia al Gluten"
+            },
+            "dishes": [
+                {
+                    "name": "Paella",
+                    "description": "arroz con cosas",
+                    "ingredients": [
+                        "arroz",
+                        "pollo"
+                    ]
+                },
+                {
+                    "name": "Parrillada de Cerdo",
+                    "description": "Hasta los andares...",
+                    "ingredients": [
+                        "chorizos",
+                        "morcilla",
+                        "panceta"
+                    ]
+                },
+                {
+                    "name": "Gazpacho Andaluz",
+                    "description": "En verano apetece un montón.",
+                    "ingredients": [
+                        "tomate",
+                        "pepino",
+                        "pimiento",
+                        "ajo"
+                    ]
+                },
+                {
+                    "name": "Tortilla de Patatas",
+                    "description": "Plato típico",
+                    "ingredients": [
+                        "huevos",
+                        "patata",
+                        "cebolla"
+                    ]
+                }
+            ]
+        },
+        {
+            "allergen": {
+                "name": "Marisco",
+                "description": "Intolerancia a los crustaceos"
+            },
+            "dishes": [
+                {
+                    "name": "Paella",
+                    "description": "arroz con cosas",
+                    "ingredients": [
+                        "arroz",
+                        "pollo"
+                    ]
+                },
+                {
+                    "name": "Gyoza de Gamba",
+                    "description": "De un bocado",
+                    "ingredients": [
+                        "Gambas",
+                        "Harina",
+                        "Cebolleta",
+                        "Gengibre"
+                    ]
+                },
+                {
+                    "name": "Bizcochá",
+                    "description": "Hay cosas que no se pueden imitar",
+                    "ingredients": [
+                        "Tortas de Alcázar",
+                        "Leche",
+                        "Canela",
+                        "Limón"
+                    ]
+                },
+                {
+                    "name": "Parrillada de Cerdo",
+                    "description": "Hasta los andares...",
+                    "ingredients": [
+                        "chorizos",
+                        "morcilla",
+                        "panceta"
+                    ]
+                },
+                {
+                    "name": "Trucha a la navarra",
+                    "description": "En la sierra",
+                    "ingredients": [
+                        "trucha",
+                        "jamón"
+                    ]
+                }
+            ]
+        },
+        {
+            "allergen": {
+                "name": "Frutos Secos",
+                "description": "Intolerancia a los frutos secos"
+            },
+            "dishes": [
+                {
+                    "name": "Bizcochá",
+                    "description": "Hay cosas que no se pueden imitar",
+                    "ingredients": [
+                        "Tortas de Alcázar",
+                        "Leche",
+                        "Canela",
+                        "Limón"
+                    ]
+                },
+                {
+                    "name": "Trucha a la navarra",
+                    "description": "En la sierra",
+                    "ingredients": [
+                        "trucha",
+                        "jamón"
+                    ]
+                },
+                {
+                    "name": "Bacalao con tomate",
+                    "description": "Para mojar pan",
+                    "ingredients": [
+                        "Bacalao",
+                        "Tomate",
+                        "Aceite",
+                        "Cebolla"
+                    ]
+                },
+                {
+                    "name": "Chuletón de Ávila",
+                    "description": "La mejor carne",
+                    "ingredients": [
+                        "ternera",
+                        "patatas",
+                        "pimientos verdes fritos"
+                    ]
+                }
+            ]
+        },
+        {
+            "allergen": {
+                "name": "Lactosa",
+                "description": "intolerante a productos lacteos"
+            },
+            "dishes": [
+                {
+                    "name": "Paella",
+                    "description": "arroz con cosas",
+                    "ingredients": [
+                        "arroz",
+                        "pollo"
+                    ]
+                },
+                {
+                    "name": "Gyoza de Gamba",
+                    "description": "De un bocado",
+                    "ingredients": [
+                        "Gambas",
+                        "Harina",
+                        "Cebolleta",
+                        "Gengibre"
+                    ]
+                },
+                {
+                    "name": "Bizcochá",
+                    "description": "Hay cosas que no se pueden imitar",
+                    "ingredients": [
+                        "Tortas de Alcázar",
+                        "Leche",
+                        "Canela",
+                        "Limón"
+                    ]
+                },
+                {
+                    "name": "Parrillada de Cerdo",
+                    "description": "Hasta los andares...",
+                    "ingredients": [
+                        "chorizos",
+                        "morcilla",
+                        "panceta"
+                    ]
+                },
+                {
+                    "name": "Tortilla de Patatas",
+                    "description": "Plato típico",
+                    "ingredients": [
+                        "huevos",
+                        "patata",
+                        "cebolla"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Huevo",
+            "description": "Intolerancia al huevo"
+        }
+    ],
+    "categories": [
+        {
+            "category": {
+                "name": "Entrantes",
+                "description": "Para picar"
+            },
+            "dishes": [
+                {
+                    "name": "Parrillada de Cerdo",
+                    "description": "Hasta los andares...",
+                    "ingredients": [
+                        "chorizos",
+                        "morcilla",
+                        "panceta"
+                    ]
+                },
+                {
+                    "name": "Lomo de novillo a la brasa",
+                    "description": "Al punto",
+                    "ingredients": []
+                },
+                {
+                    "name": "Chuletón de Ávila",
+                    "description": "La mejor carne",
+                    "ingredients": [
+                        "ternera",
+                        "patatas",
+                        "pimientos verdes fritos"
+                    ]
+                },
+                {
+                    "name": "Chuletas de cordero",
+                    "description": "Siempre triunfan",
+                    "ingredients": [
+                        "cordero",
+                        "ajo"
+                    ]
+                }
+            ]
+        },
+        {
+            "category": {
+                "name": "De cuchara",
+                "description": "Apetece todo el año..."
+            },
+            "dishes": [
+                {
+                    "name": "Gachas",
+                    "description": "Hoy hace día de gachas...",
+                    "ingredients": [
+                        "Harina de titos",
+                        "Ajos",
+                        "Pimentón"
+                    ]
+                },
+                {
+                    "name": "Gazpacho Andaluz",
+                    "description": "En verano apetece un montón.",
+                    "ingredients": [
+                        "tomate",
+                        "pepino",
+                        "pimiento",
+                        "ajo"
+                    ]
+                },
+                {
+                    "name": "Arroz Tres Delicias",
+                    "description": "Con tortilla",
+                    "ingredients": [
+                        "arroz",
+                        "huevo",
+                        "gambas"
+                    ]
+                },
+                {
+                    "name": "Fabada",
+                    "description": "Asturiana y contundente.",
+                    "ingredients": [
+                        "judias",
+                        "chorizo"
+                    ]
+                }
+            ]
+        },
+        {
+            "category": {
+                "name": "Carnes",
+                "description": "Sin comentarios"
+            },
+            "dishes": [
+                {
+                    "name": "Ensalada de Perdiz",
+                    "description": "De nuestra tierra",
+                    "ingredients": [
+                        "brotes verdes",
+                        "tomate cherry",
+                        "perdiz"
+                    ]
+                },
+                {
+                    "name": "Gyoza de Gamba",
+                    "description": "De un bocado",
+                    "ingredients": [
+                        "Gambas",
+                        "Harina",
+                        "Cebolleta",
+                        "Gengibre"
+                    ]
+                },
+                {
+                    "name": "Tortilla de Patatas",
+                    "description": "Plato típico",
+                    "ingredients": [
+                        "huevos",
+                        "patata",
+                        "cebolla"
+                    ]
+                },
+                {
+                    "name": "Gazpacho Andaluz",
+                    "description": "En verano apetece un montón.",
+                    "ingredients": [
+                        "tomate",
+                        "pepino",
+                        "pimiento",
+                        "ajo"
+                    ]
+                },
+                {
+                    "name": "Paella",
+                    "description": "arroz con cosas",
+                    "ingredients": [
+                        "arroz",
+                        "pollo"
+                    ]
+                }
+            ]
+        },
+        {
+            "category": {
+                "name": "Pescados",
+                "description": "Directamente del mar"
+            },
+            "dishes": [
+                {
+                    "name": "Trucha a la navarra",
+                    "description": "En la sierra",
+                    "ingredients": [
+                        "trucha",
+                        "jamón"
+                    ]
+                },
+                {
+                    "name": "Lubina a la espalda",
+                    "description": "Elaboración fácil",
+                    "ingredients": []
+                },
+                {
+                    "name": "Rodaballo al horno",
+                    "description": "¡Suculento!",
+                    "ingredients": [
+                        "Rodaballo fresco"
+                    ]
+                },
+                {
+                    "name": "Bacalao con tomate",
+                    "description": "Para mojar pan",
+                    "ingredients": [
+                        "Bacalao",
+                        "Tomate",
+                        "Aceite",
+                        "Cebolla"
+                    ]
+                }
+            ]
+        },
+        {
+            "category": {
+                "name": "Postres",
+                "description": "A quién le amarga un dulce?"
+            },
+            "dishes": [
+                {
+                    "name": "Bizcochá",
+                    "description": "Hay cosas que no se pueden imitar",
+                    "ingredients": [
+                        "Tortas de Alcázar",
+                        "Leche",
+                        "Canela",
+                        "Limón"
+                    ]
+                },
+                {
+                    "name": "Tarta de Queso",
+                    "description": "Irresistible",
+                    "ingredients": [
+                        "Queso Philadelphia",
+                        "Azúcar",
+                        "Harina"
+                    ]
+                },
+                {
+                    "name": "Torrijas",
+                    "description": "Las más tradicionales",
+                    "ingredients": [
+                        "Pan",
+                        "lecha",
+                        "canela",
+                        "Azúcar"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menus": [
+        {
+            "menu": {
+                "name": "WeekEnd",
+                "description": "Menu especial para el fin de semana"
+            },
+            "dishes": [
+                {
+                    "name": "Gazpacho Andaluz",
+                    "description": "En verano apetece un montón.",
+                    "ingredients": [
+                        "tomate",
+                        "pepino",
+                        "pimiento",
+                        "ajo"
+                    ]
+                },
+                {
+                    "name": "Paella",
+                    "description": "arroz con cosas",
+                    "ingredients": [
+                        "arroz",
+                        "pollo"
+                    ]
+                },
+                {
+                    "name": "Tarta de Queso",
+                    "description": "Irresistible",
+                    "ingredients": [
+                        "Queso Philadelphia",
+                        "Azúcar",
+                        "Harina"
+                    ]
+                }
+            ]
+        },
+        {
+            "menu": {
+                "name": "Menu del dia",
+                "description": "Hecho para currantes"
+            },
+            "dishes": [
+                {
+                    "name": "Bacalao con tomate",
+                    "description": "Para mojar pan",
+                    "ingredients": [
+                        "Bacalao",
+                        "Tomate",
+                        "Aceite",
+                        "Cebolla"
+                    ]
+                },
+                {
+                    "name": "Tortilla de Patatas",
+                    "description": "Plato típico",
+                    "ingredients": [
+                        "huevos",
+                        "patata",
+                        "cebolla"
+                    ]
+                },
+                {
+                    "name": "Fabada",
+                    "description": "Asturiana y contundente.",
+                    "ingredients": [
+                        "judias",
+                        "chorizo"
+                    ]
+                }
+            ]
+        },
+        {
+            "menu": {
+                "name": "Navidad",
+                "description": "Ofertas Especiales para Navidad"
+            },
+            "dishes": [
+                {
+                    "name": "Ensalada de Perdiz",
+                    "description": "De nuestra tierra",
+                    "ingredients": [
+                        "brotes verdes",
+                        "tomate cherry",
+                        "perdiz"
+                    ]
+                },
+                {
+                    "name": "Chuletas de cordero",
+                    "description": "Siempre triunfan",
+                    "ingredients": [
+                        "cordero",
+                        "ajo"
+                    ]
+                },
+                {
+                    "name": "Bizcochá",
+                    "description": "Hay cosas que no se pueden imitar",
+                    "ingredients": [
+                        "Tortas de Alcázar",
+                        "Leche",
+                        "Canela",
+                        "Limón"
+                    ]
+                }
+            ]
+        },
+        {
+            "menu": {
+                "name": "Menu Infantil",
+                "description": "Nunca falla"
+            },
+            "dishes": [
+                {
+                    "name": "Arroz Tres Delicias",
+                    "description": "Con tortilla",
+                    "ingredients": [
+                        "arroz",
+                        "huevo",
+                        "gambas"
+                    ]
+                },
+                {
+                    "name": "Gyoza de Gamba",
+                    "description": "De un bocado",
+                    "ingredients": [
+                        "Gambas",
+                        "Harina",
+                        "Cebolleta",
+                        "Gengibre"
+                    ]
+                },
+                {
+                    "name": "Rodaballo al horno",
+                    "description": "¡Suculento!",
+                    "ingredients": [
+                        "Rodaballo fresco"
+                    ]
+                },
+                {
+                    "name": "Tarta de Queso",
+                    "description": "Irresistible",
+                    "ingredients": [
+                        "Queso Philadelphia",
+                        "Azúcar",
+                        "Harina"
+                    ]
+                }
+            ]
+        },
+        {
+            "menu": {
+                "name": "Vegetariano",
+                "description": "Sólo para valientes."
+            },
+            "dishes": [
+                {
+                    "name": "Parrillada de Cerdo",
+                    "description": "Hasta los andares...",
+                    "ingredients": [
+                        "chorizos",
+                        "morcilla",
+                        "panceta"
+                    ]
+                },
+                {
+                    "name": "Chuletón de Ávila",
+                    "description": "La mejor carne",
+                    "ingredients": [
+                        "ternera",
+                        "patatas",
+                        "pimientos verdes fritos"
+                    ]
+                },
+                {
+                    "name": "Torrijas",
+                    "description": "Las más tradicionales",
+                    "ingredients": [
+                        "Pan",
+                        "lecha",
+                        "canela",
+                        "Azúcar"
+                    ]
+                }
+            ]
+        }
+    ],
+    "restaurants": [
+        {
+            "name": "Asador Javi",
+            "description": "Desde 1999",
+            "location": {
+                "latitude": 39.393657,
+                "longitude": -3.21947
+            }
+        },
+        {
+            "name": "La Mancha",
+            "description": "Cocina Tipica",
+            "location": {
+                "latitude": 39.3907729885929,
+                "longitude": -3.2191598852469294
+            }
+        },
+        {
+            "name": "La capilla de palacio",
+            "description": "Buenas tapas",
+            "location": {
+                "latitude": 39.38721480244279,
+                "longitude": -3.2138327946802896
+            }
+        },
+        {
+            "name": "Mesón Manolo",
+            "description": "El de toda la vida",
+            "location": {
+                "latitude": 39.39622147162179,
+                "longitude": -3.209624832457982
+            }
+        },
+        {
+            "name": "Las Cancelas",
+            "description": "Hay cosas que no se pueden imitar",
+            "location": {
+                "latitude": 39.389641314505994,
+                "longitude": -3.2082559024972634
+            }
+        }
+    ]
+}

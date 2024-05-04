@@ -1,100 +1,98 @@
-//import { Category, Allergen, Coordinate, Dish, Menu, Restaurant } from './objects.js';
-
+import { getCookie, setCookie } from '../js/util.js';
 
 const MODEL = Symbol('RestautantManagerModel');
 const VIEW = Symbol('RestaurantManagerView');
+const AUTH = Symbol('AUTH');
+const USER = Symbol('USER');
 
-class RestarurantManagerController {
-    constructor(modelRestaurantManager, viewRestaurantManager) {
+
+class RestaurantManagerController {
+    constructor(modelRestaurantManager, viewRestaurantManager, auth) {
         this[MODEL] = modelRestaurantManager;
         this[VIEW] = viewRestaurantManager;
-
-        this.onInit();
+        this[AUTH] = auth;
+        this[USER] = null;
 
         this.muestraManager();
-
         this[VIEW].bindInit(this.handleInit);
-
-
+        this[MODEL].onLoadJSON();//CARGA DE LOS DATOS DE EJEMPLO AL MODELO
+        this.onCharge();//CARGA DE LAS VISTAS Y LOS DATOS 
     }
-
-
 
     onInit = () => {
-
-        this[VIEW].init();//vista que muestra el navegador de la página
-        /** 
-        *funciones que asignan a los listener de los botones del
-        *navegador los manejadores con la carga de los datos que se
-        *envian a las vistas correspondienes
-        *
-        */
-        this[VIEW].bindCategories(this.handleCategories);
-        this[VIEW].bindDishes(this.handleDishes);
-        this[VIEW].bindAllergens(this.handleAllergens);
-        this[VIEW].bindMenus(this.handleMenus);
-        this[VIEW].bindRestaurants(this.handleRestaurants);
-
-        //añadimos funcionalidad a las categorias del inicio.
-        this[VIEW].bindDishInCategory(this.handleDishInCategory);
+        this[VIEW].init();
     }
-
     /**
      * manejador para devolver a la pagina al estado inicial.
      */
     handleInit = () => {
-        this.onInit();
-        this.onCharge();//cargamos las categorias al inicio
-
-
-
-
-    }
-    /**
-     * carga de los datos de ejemplo.
-     * @param {*} dishes 
-     */
-    onLoadDish = (dishes) => {
-        for (const dish of dishes) {
-            this[MODEL].addDish(dish.instance);
-        }
-        console.log("Carga de información de prueba...");
-    }
-    onLoadCategory = (categories) => {
-        for (const category of categories) {
-            this[MODEL].addCategory(category.instance);
-        }
-    }
-    onLoadAllergen = (allergens) => {
-        for (const allergen of allergens) {
-            this[MODEL].addAllergen(allergen.instance);
-        }
-    }
-    onLoadMenu = (menus) => {
-        for (const menu of menus) {
-            this[MODEL].addMenu(menu.instance);
-        }
-    }
-    onLoadRestaurant = (restaurants) => {
-        for (const restaurant of restaurants) {
-            this[MODEL].addRestaurant(restaurant.instance);
-        }
+        this.onCharge();//cargamos la pagina
+        // this.onInit();
     }
     muestraManager() {
         console.log(this[MODEL]);
     }
+    muestraUser() {
+        console.log(this[AUTH]);
+    }
     onCharge = () => {
-        this[VIEW].showCategoriesType(this[MODEL].getCategories());
-        this[VIEW].bindDishInCategory(this.handleDishInCategory);
-        this.menuRest();
-        this.menuCat();
-        this.randomDish();
-        this[VIEW].showContenidoOpt();//tarea 6 menu opciones.
-        this[VIEW].bindRandomDish(this.handleSelectedDish);
-        this[VIEW].bindShowContenidoRest(this.handleSelectedRestaurant);
-        this[VIEW].bindShowContenidoCat(this.handleDishInCategory);//
-        this[VIEW].bindshowContenidoOpt(this.handleSelectedOption);/////////////
+        if (getCookie('accetedCookieMessage') !== 'true') {//si no hemos aceptado las cookies
+            this[VIEW].showCookieMessage();//mostramos el mensaje
+            this[VIEW].bindShowCookieMessage(this.handleManageCookie);//le damos funcionalidad
+        } else {//si las hemos aceptado mostramos la pagina.
+            if (getCookie('userRegistered') !== 'true') {
+                this[VIEW].showLoginModal(this.handleManageLogin);
+            } else {
 
+                /** 
+                 *funciones que asignan a los listener de los botones del
+                 *navegador los manejadores con la carga de los datos que se
+                 *envian a las vistas correspondienes
+                 */
+                this[VIEW].init();//vista que muestra el navegador de la página
+
+                this[VIEW].showHeader();//tarea 7 muestra los menus de la cabecera
+
+                //da funcionalidad a los botones del navegador
+                this[VIEW].bindCategories(this.handleCategories);
+                this[VIEW].bindDishes(this.handleDishes);
+                this[VIEW].bindAllergens(this.handleAllergens);
+                this[VIEW].bindMenus(this.handleMenus);
+                this[VIEW].bindRestaurants(this.handleRestaurants);
+
+                this.menuCat();//desplegable de categorias
+                this[VIEW].bindShowContenidoCat(this.handleDishInCategory);//funcionalidad desplegable categorias
+
+
+                //añadimos funcionalidad a las categorias del inicio.
+                this[VIEW].showCategoriesType(this[MODEL].getCategories());
+                this[VIEW].bindDishInCategory(this.handleDishInCategory);
+
+
+
+                this.menuRest();//vista desplegable de restaurantes
+                this[VIEW].bindShowContenidoRest(this.handleSelectedRestaurant);//funcionalidad desplegable restaurantes
+
+
+
+                this[VIEW].showProfileUser();//muestra el perfil de usuario
+                this[VIEW].bindLoginModal(this.handleBtnLogin);//tarea 7 modal de login
+
+                this[VIEW].showContenidoOpt();//tarea 6 menu opciones.
+                this[VIEW].bindshowContenidoOpt(this.handleSelectedOption);//funcionalidad desplegable opciones
+
+                //this[VIEW].bindShowLoginModal(this.handleManageLogin);//--->problemas de contexto????
+                this[VIEW].bindFavoriteDishes(this.handleFavoriteList);
+
+                this[VIEW].bindMapView(this.handleMapView);
+
+
+                this.randomDish();//vista de platos aleatorios
+                this[VIEW].bindRandomDish(this.handleSelectedDish);//funcionalidad platos aleatorios
+
+            }
+
+        }
     }
 
     /** 
@@ -109,8 +107,11 @@ class RestarurantManagerController {
 
     handleDishes = () => {
         let platos = this[MODEL].getDishes();
-        this[VIEW].showDishesType(platos);
+        let favorites = this[MODEL].getFavoriteDishes();
+        this[VIEW].showDishesType(platos, favorites);//
         this[VIEW].bindDishInDishes(this.handleSelectedDish);
+        this[VIEW].bindFavoritesDishes(this.handleFavoriteDish);
+
     }
 
     handleAllergens = () => {
@@ -208,8 +209,11 @@ class RestarurantManagerController {
      */
     menuCat = () => {
         let categories = this[MODEL].getCategories();
+
         this[VIEW].showContenidoCat(categories);
     }
+
+
 
     /**
      * metodo que escoge 3 platos al azar y se los pasa a la vista.
@@ -253,10 +257,13 @@ class RestarurantManagerController {
      * @param {*} name 
      */
     handleSelectedOption = (name) => {
+        console.log(name);
         let allergens = this[MODEL].getAllergens();
         let categories = this[MODEL].getCategories();
         let dishes = this[MODEL].getDishes();
         let menus = this[MODEL].getMenus();
+        let restaurants=this[MODEL].getRestaurants();
+
 
         if (name == 'newdish') {
             //vista para crear un nuevo plato con la funcionalidad incluida
@@ -276,9 +283,13 @@ class RestarurantManagerController {
         } else if (name === 'dishcategory') {
             //vista para asignar/desasignar categorias con la funcionalidad incluida
             this[VIEW].showDishCategoryModal(this.handleDishCategory, categories, dishes);
-
+        } else if (name === 'backup') {
+            this.onSaveJSON();
+        } else if (name === "geocoder") {
+            this[VIEW].showGeocoderModal(restaurants);
 
         }
+
     }
     /**
      * 
@@ -293,8 +304,9 @@ class RestarurantManagerController {
      */
 
     handleAddDish = (dish, category, allergens) => {
-        // console.log(dish);
-        // console.log(dish.name);
+        console.log(dish);
+        console.log(allergens)
+        console.log(category);
         let name = dish.name;
         let description = dish.description;
         let image = dish.image;
@@ -305,7 +317,11 @@ class RestarurantManagerController {
         let storedDish = this[MODEL].findDish(dish.name);// buscamos el plato en la coleccion
         let storedCategory = this[MODEL].findCategory(category);//buscamos la categoria en la coleccion
 
-        this[MODEL].assignCategoryToDish(storedCategory.category, storedDish);//asignamos el plato a la categoria
+        if (storedCategory.category) {//subsanado el error
+            this[MODEL].assignCategoryToDish(storedCategory.category, storedDish);//asignamos el plato a la categoria
+        } else {
+            this[MODEL].assignCategoryToDish(storedCategory, storedDish);//asignamos el plato a la categoria
+        }
         for (const allergen of allergens) {
             this[MODEL].assignAllergenToDish(storedDish, this[MODEL].findAllergen(allergen).allergen);//asignamos el plato a los alergenos pasados por array
         }
@@ -329,13 +345,16 @@ class RestarurantManagerController {
         // console.log(dish);
         let storedDish = this[MODEL].findDish(dish);
 
+        this[MODEL].removeFavoriteDish(dish);//eliminamos el plato de localStorage TAREA 7
         this[MODEL].removeDish(storedDish);
         this[MODEL].deleteDishFromCollection(storedDish);
 
 
         //mostramos la vista de los platos y le damos funcionalidad
-        this[VIEW].showDishesType(this[MODEL].getDishes());
+        this[VIEW].showDishesType(this[MODEL].getDishes(), this[MODEL].getFavoriteDishes());
         this[VIEW].bindDishInDishes(this.handleSelectedDish);
+
+        // this[VIEW].bindFavoritesDishes(this.handleFavoriteDish);
 
         //informamos del proceso
         this[VIEW].showDeleteModal(storedDish);
@@ -505,9 +524,88 @@ class RestarurantManagerController {
 
     }
 
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7  *****************************/
+
+
+    handleManageCookie = (cookie) => {
+        console.log(cookie);
+
+        if (cookie === 'true') {
+            this.onCharge();
+        } else {
+            this[VIEW].showDeniedCookie();
+        }
+
+    }
+
+    handleBtnLogin = () => {
+        // this[VIEW].showLoginModal(this.handleManageLogin);//muestra el modal de registro de usuario
+        this[VIEW].showCloseSessionModal(this.handleCloseSession);
+
+    }
+    handleManageLogin = (name, pass) => {
+        console.log(name + ' ' + pass);
+        if (this[AUTH].validateUser(name, pass)) {
+            this[USER] = this[AUTH].getUser(name);
+            console.log(this[USER].username)
+            setCookie('userRegistered', 'true', 1);
+            this.onCharge();
+        } else {
+            this[VIEW].showInvalidUserMessage(name);
+            this[VIEW].showLoginModal(this.handleManageLogin);
+        }
+
+        //-->
+        //mostramos las vistas sin funcionalidad???
+    }
+    onOpenSession() {
+        this.onCharge();
+
+    }
+    handleCloseSession = (valor) => {
+        console.log(valor);
+
+        if (valor === 'false') {
+            this[VIEW].showEmptyView();
+        }
+    }
+
+    handleFavoriteDish = (dish) => {
+        console.log(dish);
+        let favorites = this[MODEL].getFavoriteDishes();
+        if (favorites.has(dish)) {
+            this[MODEL].removeFavoriteDish(dish);
+        } else {
+            this[MODEL].saveFavoriteDish(dish);
+        }
+
+    }
+
+    handleFavoriteList = () => {
+        let favorites = this[MODEL].getFavoriteDishes();
+        this[VIEW].showFavoritesDishes(favorites);
+        this[VIEW].bindDishInDishes(this.handleSelectedDish);
+        this[VIEW].bindFavoritesDishes(this.handleFavoriteDish);
+    }
+    onSaveJSON = () => {
+        this[MODEL].saveJson();
+        console.log("restaurantJSON");
+    }
+    handleMapView = () => {
+        let restaurants = this[MODEL].getRestaurants();
+        this[VIEW].showRestaurantMap(restaurants);
+    }
+
+
+
 
 
 
 }//fin de clase
 
-export default RestarurantManagerController;
+export default RestaurantManagerController;

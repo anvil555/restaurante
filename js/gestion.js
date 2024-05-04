@@ -1,1 +1,0 @@
-import RestaurantManagerApp from './js/restaurantManagerApp';

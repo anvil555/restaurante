@@ -6,7 +6,7 @@ import {
     ValueEmptyException, InvalidConstructorException,
     UnexpectedObjectException, ItemNotFoundException,
     ObjectAlreadyExistsException, CategoryNotExistException,
-    NullObjectException
+    NullObjectException, AuthenticationServiceException
 } from './exceptions.js';
 
 
@@ -175,7 +175,7 @@ class Dish {
     get ingredients() {
         return this.#ingredients;
     }
-    
+
     get image() {
         return this.#image;
         //console.log(image.name); 
@@ -191,8 +191,8 @@ class Dish {
         this.#image = image;
         //paella.image = "foto" 
     }
-    set ingredients(ingredients){
-        this.#ingredients=ingredients;
+    set ingredients(ingredients) {
+        this.#ingredients = ingredients;
     }
     /**
      * metodos de la colección de ingredientes.
@@ -282,7 +282,7 @@ class Menu {
         } else {
             this.#name = name;
         }
-        this.#description =description;
+        this.#description = description;
     }
 
     /**
@@ -311,23 +311,23 @@ class Restaurant {
     #name;
     #description;
     #location;
-    constructor(name, description,location) {
+    constructor(name, description, location) {
         if (name === undefined) {
             throw new NullObjectException();//esta propiedad es obligatoria
         } else {
             this.#name = name;
         }
-        this.#description =description;
+        this.#description = description;
         // if (location === undefined) {
         //     this.#location = "";
         // } else {
-             this.#location = location;//utilizamos el set
+        this.#location = location;//utilizamos el set
         // }
     }
 
     /**
      * getter, setter y toString de la clase Restaurant
-     */      
+     */
     get name() {
 
         return this.#name;
@@ -398,8 +398,37 @@ class Coordinate {
         return `${this.#latitude} ${this.#longitude}`;
     }
 }
+class User {
+    // Campos privados
+    #username;
+    #preferences;
+    constructor(username) {
+        if (!new.target) throw new InvalidAccessConstructorException();
+        if (!username) throw new EmptyValueException('username');
+        this.#username = username;
+        Object.defineProperty(this, 'username', {
+            enumerable: true,
+            get() {
+                return this.#username;
+            },
+        });
+        Object.defineProperty(this, 'preferences', {
+            enumerable: true,
+            get() {
+                return this.#preferences;
+            },
+            set(value) {
+                if (!value) throw new EmptyValueException('preferences');
+                this.#preferences = value;
+            },
+        });
+    }
+    get username() {
+        return this.#username;
+    }
+}
 
 /**
  * exportamos los objetos 
  */
-export { Category, Allergen, Coordinate, Dish, Menu, Restaurant };
+export { Category, Allergen, Coordinate, Dish, Menu, Restaurant, User };

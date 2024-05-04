@@ -4,50 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAREA 6</title>
+    <title>TAREA 7</title>
     <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+
+
     <!-- https://github.com/anvil555/restaurante.git -->
 
 </head>
 
 <body>
     <header id="header">
-
-        <div id="tarea">
-            <a href="#">DWEC 6 </a>
-        </div>
-        <div>
-            <a title="Devuelve la página al inicio." id="init" href="#">Inicio</a>
-        </div>
-        <div id="dropdown" class="dropdown">
-            <a class="dropbtn" title="Muestra los restaurantes">Restaurantes &#x21D3;</a>
-            <div class="dropdown-content" id="contenidorest"></div>
-        </div>
-        <div id="dropdown" class="dropdown">
-            <a class="dropbtn" title="Muestra las categorías.">Categorias &#x21D3;</a>
-            <div class="dropdown-content" id="contenidocat"></div>
-        </div>
-        <div id="dropdown" class="dropdown">
-            <a class="dropbtn" title="Opciones.">Opciones &#x21D3;</a>
-            <div class="dropdown-content" id="contenidoopcion"></div>
-        </div>
-        <div>
-            <a href="#randomdish" title="Te lleva a los platos aleatorios">Platos del día</a>
-        </div>
-
+        <section>
+            <div id="tarea">
+                <a href="#">DWEC_7 </a>
+            </div>
+        </section>
+        <section class="menu">
+            <section>
+                <a title="Devuelve la página al inicio." id="init" href="#">Inicio</a>
+            </section>
+            <section class="beginning" id="beginning"></section>
+            <section id="profileUser"></section>
+        </section>
     </header>
     <nav>
         <div class="navegador" id="navegador">
         </div>
     </nav>
     <main></main>
-    <h3>Platos del día</h3>
-    <section id="randomdish" class="random-list">
-        <button onclick="randomdish()">Prueba suerte</button>
-    </section>
-
-
     <footer></footer>
     <script src="./js/restaurantManagerApp.js" type="module"></script>
 </body>
