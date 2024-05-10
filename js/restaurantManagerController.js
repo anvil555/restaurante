@@ -1,9 +1,10 @@
-import { getCookie, setCookie } from '../js/util.js';
+import { getCookie, setCookie } from './util.js';
 
-const MODEL = Symbol('RestautantManagerModel');
+const MODEL = Symbol('RestaurantManagerModel');
 const VIEW = Symbol('RestaurantManagerView');
 const AUTH = Symbol('AUTH');
 const USER = Symbol('USER');
+const ON_LOAD_JSON = Symbol('Load Manager Objects');
 
 
 class RestaurantManagerController {
@@ -15,7 +16,8 @@ class RestaurantManagerController {
 
         this.muestraManager();
         this[VIEW].bindInit(this.handleInit);
-        this[MODEL].onLoadJSON();//CARGA DE LOS DATOS DE EJEMPLO AL MODELO
+        // this[MODEL].onLoadJSON();//CARGA DE LOS DATOS DE EJEMPLO AL MODELO
+        this[ON_LOAD_JSON]();
         this.onCharge();//CARGA DE LAS VISTAS Y LOS DATOS 
     }
 
@@ -41,9 +43,10 @@ class RestaurantManagerController {
             this[VIEW].bindShowCookieMessage(this.handleManageCookie);//le damos funcionalidad
         } else {//si las hemos aceptado mostramos la pagina.
             if (getCookie('userRegistered') !== 'true') {
-                this[VIEW].showLoginModal(this.handleManageLogin);
-            } else {
+                this.onClosedSession();
 
+            } else {
+                this[ON_LOAD_JSON];
                 /** 
                  *funciones que asignan a los listener de los botones del
                  *navegador los manejadores con la carga de los datos que se
@@ -60,19 +63,19 @@ class RestaurantManagerController {
                 this[VIEW].bindMenus(this.handleMenus);
                 this[VIEW].bindRestaurants(this.handleRestaurants);
 
-                this.menuCat();//desplegable de categorias
-                this[VIEW].bindShowContenidoCat(this.handleDishInCategory);//funcionalidad desplegable categorias
 
 
-                //añadimos funcionalidad a las categorias del inicio.
+                //añadimos funcionalidad a las categorias del inicio. También los cargo en el metodo ON_LOAD_JSON
                 this[VIEW].showCategoriesType(this[MODEL].getCategories());
                 this[VIEW].bindDishInCategory(this.handleDishInCategory);
 
 
+                this.menuCat();//desplegable de categorias
+                this[VIEW].bindShowContenidoCat(this.handleDishInCategory);//funcionalidad desplegable categorias
+
 
                 this.menuRest();//vista desplegable de restaurantes
                 this[VIEW].bindShowContenidoRest(this.handleSelectedRestaurant);//funcionalidad desplegable restaurantes
-
 
 
                 this[VIEW].showProfileUser();//muestra el perfil de usuario
@@ -83,10 +86,9 @@ class RestaurantManagerController {
 
                 //this[VIEW].bindShowLoginModal(this.handleManageLogin);//--->problemas de contexto????
                 this[VIEW].bindFavoriteDishes(this.handleFavoriteList);
-
                 this[VIEW].bindMapView(this.handleMapView);
 
-
+                //los platos aleatorios los dejo comentados y los cargo en el metodo ON_LOAD_JSON
                 this.randomDish();//vista de platos aleatorios
                 this[VIEW].bindRandomDish(this.handleSelectedDish);//funcionalidad platos aleatorios
 
@@ -233,16 +235,16 @@ class RestaurantManagerController {
             let numero = Math.floor(Math.random() * max);
             map.set(numero, secundario.get(numero));
         }
-        this[VIEW].showRandomDish(map.values())
+        this[VIEW].showRandomDish(map);
     }
 
 
-    /**********************   TAREA 6  *****************************/
-    /**********************   TAREA 6  *****************************/
-    /**********************   TAREA 6  *****************************/
-    /**********************   TAREA 6  *****************************/
-    /**********************   TAREA 6  *****************************/
-    /**********************   TAREA 6  *****************************/
+    /**********************   TAREA 6   *****************************/
+    /**********************   TAREA 6   *****************************/
+    /**********************   TAREA 6   *****************************/
+    /**********************   TAREA 6   *****************************/
+    /**********************   TAREA 6   *****************************/
+    /**********************   TAREA 6   *****************************/
 
     /**
      * manejador para el desplegable de opciones. Recibe un valor y en funcion
@@ -262,7 +264,7 @@ class RestaurantManagerController {
         let categories = this[MODEL].getCategories();
         let dishes = this[MODEL].getDishes();
         let menus = this[MODEL].getMenus();
-        let restaurants=this[MODEL].getRestaurants();
+        let restaurants = this[MODEL].getRestaurants();
 
 
         if (name == 'newdish') {
@@ -524,14 +526,20 @@ class RestaurantManagerController {
 
     }
 
-    /**********************   TAREA 7  *****************************/
-    /**********************   TAREA 7  *****************************/
-    /**********************   TAREA 7  *****************************/
-    /**********************   TAREA 7  *****************************/
-    /**********************   TAREA 7  *****************************/
-    /**********************   TAREA 7  *****************************/
+    /**********************   TAREA 7   *****************************/
+    /**********************   TAREA 7   *****************************/
+    /**********************   TAREA 7   *****************************/
+    /**********************   TAREA 7   *****************************/
+    /**********************   TAREA 7   *****************************/
+    /**********************   TAREA 7   *****************************/
 
-
+    /**
+     * funcion que maneja la acpetacion de las cookies o
+     * muestra un mensaje informativo de lo contrario
+     * 
+     * 
+     * @param {*} cookie 
+     */
     handleManageCookie = (cookie) => {
         console.log(cookie);
 
@@ -559,12 +567,28 @@ class RestaurantManagerController {
             this[VIEW].showInvalidUserMessage(name);
             this[VIEW].showLoginModal(this.handleManageLogin);
         }
-
-        //-->
-        //mostramos las vistas sin funcionalidad???
     }
-    onOpenSession() {
-        this.onCharge();
+    /**
+     * mostramos las vistas permitidas sin estar registrado.
+     */
+    onClosedSession() {
+        this[ON_LOAD_JSON];
+        this[VIEW].showLoginModal(this.handleManageLogin);
+        this[VIEW].init();//vista que muestra el navegador de la página
+        this[VIEW].bindCategories(this.handleCategories);
+        this[VIEW].bindDishes(this.handleDishes);
+        this[VIEW].bindAllergens(this.handleAllergens);
+        this[VIEW].bindMenus(this.handleMenus);
+        this[VIEW].bindRestaurants(this.handleRestaurants);
+
+        //mostramos las categorias y le damos funcionalidad.
+        this[VIEW].showCategoriesType(this[MODEL].getCategories());
+        this[VIEW].bindDishInCategory(this.handleDishInCategory);
+
+        this.randomDish();//vista de platos aleatorios
+        this[VIEW].bindRandomDish(this.handleSelectedDish);//funcionalidad platos aleatorios
+        this[VIEW].showRegisterUser();
+        this[VIEW].bindRegisterModal(this.handleRegister);//////añadir el
 
     }
     handleCloseSession = (valor) => {
@@ -572,7 +596,16 @@ class RestaurantManagerController {
 
         if (valor === 'false') {
             this[VIEW].showEmptyView();
+
+            //mostramos las categorias y le damos funcionalidad.
+            this[VIEW].showCategoriesType(this[MODEL].getCategories());
+            this[VIEW].bindDishInCategory(this.handleDishInCategory);
+
+
         }
+    }
+    handleRegister = () => {
+        this[VIEW].showLoginModal(this.handleManageLogin);
     }
 
     handleFavoriteDish = (dish) => {
@@ -600,6 +633,98 @@ class RestaurantManagerController {
         let restaurants = this[MODEL].getRestaurants();
         this[VIEW].showRestaurantMap(restaurants);
     }
+    async [ON_LOAD_JSON]() {
+
+        // const response = await fetch("./data.json");
+
+        const response = await fetch("./Backup/Backup-4-5-2024-10_15_1.json");
+        const data = await response.json();
+        if (data.dishes) {
+            for (const dish of data.dishes) {
+                this[MODEL].createDish(dish.name, dish.description,
+                    dish.image, dish.ingredients);
+            }
+        }
+        if (data.categories) {
+            for (const category of data.categories) {
+                if (category.dishes) {
+                    let newCategory = this[MODEL].createCategory(category.category.name, category.category.description);
+                    for (const dish of category.dishes) {
+                        if (this[MODEL].findDish(dish.name)) {
+                            this[MODEL].assignCategoryToDish(newCategory, this[MODEL].findDish(dish.name));
+                        } else {
+                            let newDish = this[MODEL].createDish(dish.name, dish.description,
+                                dish.image, dish.ingredients);
+                            this[MODEL].assignCategoryToDish(newCategory, newDish);
+                        }
+                    }
+                } else {
+                    this[MODEL].createCategory(category.name, category.description)
+                }
+            }
+        }
+        if (data.allergens) {
+            for (const allergen of data.allergens) {
+                if (allergen.dishes) {
+                    let newAllergen = this[MODEL].createAllergen(allergen.allergen.name, allergen.allergen.description);
+                    for (const dish of allergen.dishes) {
+                        if (this[MODEL].findDish(dish.name)) {
+                            this[MODEL].assignAllergenToDish(this[MODEL].findDish(dish.name), newAllergen);
+                        } else {
+                            let newDish = this[MODEL].createDish(dish.name, dish.description,
+                                dish.image, dish.ingredients);
+                            this[MODEL].assignAllergenToDish(newDish, newAllergen);
+                        }
+                    }
+                } else {
+                    this[MODEL].createAllergen(allergen.name, allergen.description);
+                }
+            }
+        }
+        if (data.menus) {
+            for (const menu of data.menus) {
+                if (menu.dishes) {
+                    let newMenu = this[MODEL].createMenu(menu.menu.name, menu.menu.description);
+                    for (const dish of menu.dishes) {
+                        if (this[MODEL].findDish(dish.name)) {
+                            this[MODEL].assignDishToMenu(newMenu, this[MODEL].findDish(dish.name));
+                        } else {
+                            let newDish = this[MODEL].createDish(dish.name, dish.description,
+                                dish.image, dish.ingredients);
+                            this[MODEL].assignDishToMenu(newMenu, dish);
+                        }
+                    }
+                } else {
+                    this[MODEL].createMenu(menu.name, menu.description);
+                }
+            }
+        }
+        if (data.restaurants) {
+            for (const restaurant of data.restaurants) {
+                this[MODEL].createRestaurant(restaurant.name, restaurant.description, restaurant.location.latitude, restaurant.location.longitude);
+            }
+
+        }
+        // this[VIEW].bindInit(this.handleInit);
+
+        //añadido para que carguen los datos al actualizar la pagina desde el boton del navegador.
+
+        //mostramos los platos aleatorios
+        this.randomDish();
+        this[VIEW].bindRandomDish(this.handleSelectedDish);//funcionalidad platos aleatorios
+
+        //mostramos las categorias y le damos funcionalidad.
+        this[VIEW].showCategoriesType(this[MODEL].getCategories());
+        this[VIEW].bindDishInCategory(this.handleDishInCategory);
+
+        this.menuCat();//desplegable de categorias
+        this[VIEW].bindShowContenidoCat(this.handleDishInCategory);//funcionalidad desplegable categorias
+
+
+        this.menuRest();//vista desplegable de restaurantes
+        this[VIEW].bindShowContenidoRest(this.handleSelectedRestaurant);//funcionalidad desplegable restaurantes
+
+    }
 
 
 
@@ -607,5 +732,6 @@ class RestaurantManagerController {
 
 
 }//fin de clase
+
 
 export default RestaurantManagerController;

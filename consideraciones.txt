@@ -69,7 +69,20 @@ probar el archivo JSON generado.
 
 Mensajes personalizados en la validacion de creacion de un nuevo plato.
  
- 
 
+
+VERSION 3.1
+===============
+
+Arreglado el fallo por falta de datos al recargar la página con el navegador
+Se solventa al declarar el metodo ASYNC y parametro AWAIT.
+
+Se desactivan las vistas de usuarios no registrados así como los selectores´
+de platos favoritos en la vista general de platos.
+
+Se cambia la carga de datos del archivo JSON al controlador en lugar de hacerlo
+desde el modelo.
+
+Mostramos boton login si no estas registrado y se le da funcionalidad.
  
 

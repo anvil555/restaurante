@@ -357,7 +357,7 @@ const Manager = (function () {
                 throw new NullObjectException();//capturamos la excepción.
             }
             if (!(category instanceof Category)) {//comprobamos que el parámetro category es una instancia del objeto que necesitamos 
-                throw new UnexpectedObjectException(Object.values(category));//capturamos la excepción.
+                // throw new UnexpectedObjectException(Object.values(category));//capturamos la excepción.
             }
             if (!this.#categories.has(category.name)) {//si la categoría no se encuentra en la colección.
                 try {
@@ -1129,83 +1129,83 @@ const Manager = (function () {
          * en este caso lo carga de una copia de seguridad confeccionada previamente.
          */
 
-        onLoadJSON() {
+        // onLoadJSON() {
 
-            //  fetch("data.json")
-            fetch("Backup/Backup-4-5-2024-10_15_1.json")
-            
-                .then((response) => response.json())
+        //     //  fetch("./data.json")
+        //     fetch("./Backup/Backup-4-5-2024-10_15_1.json")
 
-                .then((data) => {
-                    // console.log(data);
-                    if (data.dishes) {
-                        for (const dish of data.dishes) {
-                            this.createDish(dish.name, dish.description,
-                                dish.image, dish.ingredients);
-                        }
-                    }
-                    if (data.categories) {
-                        for (const category of data.categories) {
-                            if (category.dishes) {
-                                let newCategory = this.createCategory(category.category.name, category.category.description);
-                                for (const dish of category.dishes) {
-                                    if (this.findDish(dish.name)) {
-                                        this.assignCategoryToDish(newCategory, this.findDish(dish.name));
-                                    } else {
-                                        let newDish = this.createDish(dish.name, dish.description,
-                                            dish.image, dish.ingredients);
-                                        this.assignCategoryToDish(newCategory, newDish);
-                                    }
-                                }
-                            } else {
-                                this.createCategory(category.name, category.description)
-                            }
-                        }
-                    }
-                    if (data.allergens) {
-                        for (const allergen of data.allergens) {
-                            if (allergen.dishes) {
-                                let newAllergen = this.createAllergen(allergen.allergen.name, allergen.allergen.description);
-                                for (const dish of allergen.dishes) {
-                                    if (this.findDish(dish.name)) {
-                                        this.assignAllergenToDish(this.findDish(dish.name), newAllergen);
-                                    } else {
-                                        let newDish = this.createDish(dish.name, dish.description,
-                                            dish.image, dish.ingredients);
-                                        this.assignAllergenToDish(newDish, newAllergen);
-                                    }
-                                }
-                            } else {
-                                this.createAllergen(allergen.name, allergen.description);
-                            }
-                        }
-                    }
-                    if (data.menus) {
-                        for (const menu of data.menus) {
-                            if (menu.dishes) {
-                                let newMenu = this.createMenu(menu.menu.name, menu.menu.description);
-                                for (const dish of menu.dishes) {
-                                    if (this.findDish(dish.name)) {
-                                        this.assignDishToMenu(newMenu, this.findDish(dish.name));
-                                    } else {
-                                        let newDish = this.createDish(dish.name, dish.description,
-                                            dish.image, dish.ingredients);
-                                        this.assignDishToMenu(newMenu, dish);
-                                    }
-                                }
-                            } else {
-                                this.createMenu(menu.name, menu.description);
-                            }
-                        }
-                    } if (data.restaurants) {
-                        for (const restaurant of data.restaurants) {
-                            this.createRestaurant(restaurant.name, restaurant.description, restaurant.location.latitude, restaurant.location.longitude);
-                        }
+        //         .then((response) => response.json())
 
-                    }
-                });
+        //         .then((data) => {
+        //             // console.log(data);
+        //             if (data.dishes) {
+        //                 for (const dish of data.dishes) {
+        //                     this.createDish(dish.name, dish.description,
+        //                         dish.image, dish.ingredients);
+        //                 }
+        //             }
+        //             if (data.categories) {
+        //                 for (const category of data.categories) {
+        //                     if (category.dishes) {
+        //                         let newCategory = this.createCategory(category.category.name, category.category.description);
+        //                         for (const dish of category.dishes) {
+        //                             if (this.findDish(dish.name)) {
+        //                                 this.assignCategoryToDish(newCategory, this.findDish(dish.name));
+        //                             } else {
+        //                                 let newDish = this.createDish(dish.name, dish.description,
+        //                                     dish.image, dish.ingredients);
+        //                                 this.assignCategoryToDish(newCategory, newDish);
+        //                             }
+        //                         }
+        //                     } else {
+        //                         this.createCategory(category.name, category.description)
+        //                     }
+        //                 }
+        //             }
+        //             if (data.allergens) {
+        //                 for (const allergen of data.allergens) {
+        //                     if (allergen.dishes) {
+        //                         let newAllergen = this.createAllergen(allergen.allergen.name, allergen.allergen.description);
+        //                         for (const dish of allergen.dishes) {
+        //                             if (this.findDish(dish.name)) {
+        //                                 this.assignAllergenToDish(this.findDish(dish.name), newAllergen);
+        //                             } else {
+        //                                 let newDish = this.createDish(dish.name, dish.description,
+        //                                     dish.image, dish.ingredients);
+        //                                 this.assignAllergenToDish(newDish, newAllergen);
+        //                             }
+        //                         }
+        //                     } else {
+        //                         this.createAllergen(allergen.name, allergen.description);
+        //                     }
+        //                 }
+        //             }
+        //             if (data.menus) {
+        //                 for (const menu of data.menus) {
+        //                     if (menu.dishes) {
+        //                         let newMenu = this.createMenu(menu.menu.name, menu.menu.description);
+        //                         for (const dish of menu.dishes) {
+        //                             if (this.findDish(dish.name)) {
+        //                                 this.assignDishToMenu(newMenu, this.findDish(dish.name));
+        //                             } else {
+        //                                 let newDish = this.createDish(dish.name, dish.description,
+        //                                     dish.image, dish.ingredients);
+        //                                 this.assignDishToMenu(newMenu, dish);
+        //                             }
+        //                         }
+        //                     } else {
+        //                         this.createMenu(menu.name, menu.description);
+        //                     }
+        //                 }
+        //             } if (data.restaurants) {
+        //                 for (const restaurant of data.restaurants) {
+        //                     this.createRestaurant(restaurant.name, restaurant.description, restaurant.location.latitude, restaurant.location.longitude);
+        //                 }
 
-        }
+        //             }
+        //         });
+
+        // }
 
         /**
          * metodo para crear una cadena de texto que da formato al archivo JSON

@@ -53,7 +53,6 @@ class RestaurantManagerView {
             <a href="#" id="aller">Alérgenos</a>
             <a href="#" id="menu">Menús</a>
             <a href="#" id="rest">Restaurantes</a>`);
-
     }
 
     /*
@@ -67,9 +66,7 @@ class RestaurantManagerView {
                 handler();
             });
         }
-        // document.getElementById('cat').addEventListener('click', (event) => {
-        //     handler();
-        // });
+
 
     }
 
@@ -102,9 +99,6 @@ class RestaurantManagerView {
                 handler();
             });
         }
-        // document.getElementById('dish').addEventListener('click', (event) => {
-        //     handler();
-        // });
 
     }
     /**
@@ -113,33 +107,50 @@ class RestaurantManagerView {
      * MODIFICACION TAREA 7 PARA MOSTRAR SI UN PLATO ESTA ALMANCENADO COMO FAVORITO.
     */
     showDishesType(dishes, favorites) {
+        let loginBt = document.getElementById('loginBt');
         this.showTitle('Platos');
         let list = document.createElement('section');
         list.classList.add(("item-list"));
         this.main.append(list);
-        for (const [key, value] of dishes) {
-            list.insertAdjacentHTML('beforeend', `
-        <div class='card'>
-            <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
-            <div class='container'>
-                 <li data-dish='${key}'>${key}</li>
-                 <div>  
-                    <label class="switch">                 
-                        <input type="checkbox" class="favoriteDish" data-dish='${key}'>
-                        <span class="slider round"></span>
-                    </label>                 
-                 </div>
-            </div>
-        </div>`)
-        }
-        let favoritesChk = document.querySelectorAll('.switch input');
-        favoritesChk.forEach(function (item, key) {
-            if (favorites) {
-                if (favorites.has(item.dataset.dish)) {
-                    item.checked = true;
-                }
+        
+        if(loginBt){
+            for (const [key, value] of dishes) {
+                list.insertAdjacentHTML('beforeend', `
+            <div class='card'>
+                <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
+                <div class='container'>
+                     <li data-dish='${key}'>${key}</li>
+                     <div>  
+                        <label class="switch">                 
+                            <input type="checkbox" class="favoriteDish" data-dish='${key}'>
+                            <span class="slider round"></span>
+                        </label>                 
+                     </div>
+                </div>
+            </div>`)
             }
-        })
+            let favoritesChk = document.querySelectorAll('.switch input');
+            favoritesChk.forEach(function (item, key) {
+                if (favorites) {
+                    if (favorites.has(item.dataset.dish)) {
+                        item.checked = true;
+                    }
+                }
+            })
+        }else{
+            for (const [key, value] of dishes) {
+                list.insertAdjacentHTML('beforeend', `
+            <div class='card'>
+                <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
+                <div class='container'>
+                     <li data-dish='${key}'>${key}</li>
+                     
+                </div>
+            </div>`)
+            }
+        }
+        
+        
     }
 
 
@@ -660,9 +671,6 @@ class RestaurantManagerView {
             }).addTo(map);
             let marker = L.marker([restaurant.location.latitude, restaurant.location.longitude]).addTo(map);
             marker.bindPopup(`<strong>${restaurant.name}</strong><br>${restaurant.description}`).openPopup();
-
-
-
         } else {
             coordenadas.insertAdjacentHTML('beforeend',
                 `<li>Sin información</li>`);
@@ -675,11 +683,14 @@ class RestaurantManagerView {
      */
     showContenidoRest(restaurants) {
         let contenidoRest = document.getElementById('contenidorest');
-        contenidoRest.replaceChildren();
-        restaurants.forEach(function (value, key) {
-            contenidoRest.insertAdjacentHTML('beforeend',
-                `<option class='option' value='${key}' data-restaurant='${key}'>${key}</option>`)
-        })
+        if (contenidoRest) {
+
+            contenidoRest.replaceChildren();
+            restaurants.forEach(function (value, key) {
+                contenidoRest.insertAdjacentHTML('beforeend',
+                    `<option class='option' value='${key}' data-restaurant='${key}'>${key}</option>`)
+            })
+        }
     }
     /**
      * listener para los elementos del desplegable de los restaurantes.
@@ -687,13 +698,15 @@ class RestaurantManagerView {
      */
     bindShowContenidoRest(handler) {
         let contenidoRest = document.getElementById('contenidorest');
-        let options = contenidoRest.querySelectorAll('.option');
-        // console.log(options.length);
-        options.forEach(function (item, key) {
-            item.addEventListener('click', (event) => {
-                handler(event.currentTarget.dataset.restaurant);
+        if (contenidoRest) {
+            let options = contenidoRest.querySelectorAll('.option');
+            // console.log(options.length);
+            options.forEach(function (item, key) {
+                item.addEventListener('click', (event) => {
+                    handler(event.currentTarget.dataset.restaurant);
+                })
             })
-        })
+        }
     }
     /**
      * vista para el menu desplegable de categorias en el header de la pagina
@@ -701,11 +714,13 @@ class RestaurantManagerView {
      */
     showContenidoCat(categories) {
         let contenidoCat = document.getElementById('contenidocat');
-        contenidoCat.replaceChildren();
-        categories.forEach(function (value, key) {
-            contenidoCat.insertAdjacentHTML('beforeend',
-                `<option class='option' value='${key}' data-category='${key}'>${key}</option>`)
-        })
+        if (contenidoCat) {
+            contenidoCat.replaceChildren();
+            categories.forEach(function (value, key) {
+                contenidoCat.insertAdjacentHTML('beforeend',
+                    `<option class='option' value='${key}' data-category='${key}'>${key}</option>`)
+            })
+        }
     }
     /**
      * listener para los elementos del desplegable de categorias 
@@ -713,13 +728,17 @@ class RestaurantManagerView {
      */
     bindShowContenidoCat(handler) {
         let contenidoCat = document.getElementById('contenidocat');
-        let options = contenidoCat.querySelectorAll('.option');
-        // console.log(options.length);
-        options.forEach(function (item, key) {
-            item.addEventListener('click', (event) => {
-                handler(event.currentTarget.dataset.category);
+        if (contenidoCat) {
+
+
+            let options = contenidoCat.querySelectorAll('.option');
+            // console.log(options.length);
+            options.forEach(function (item, key) {
+                item.addEventListener('click', (event) => {
+                    handler(event.currentTarget.dataset.category);
+                })
             })
-        })
+        }
     }
 
     /**
@@ -727,22 +746,23 @@ class RestaurantManagerView {
      * @param {*} dishes 
      */
     showRandomDish(dishes) {
-        console.log(dishes);
-        this.footer.replaceChildren();
-        this.footer.insertAdjacentHTML('beforeend',
-            `<h3>Platos del día</h3>
-            <section id="randomdish" class="random-list"></section>
-            `);
-        let randomDish = document.getElementById('randomdish');
-        for (const dish of dishes) {
-            randomDish.insertAdjacentHTML('afterbegin',
-                `<div class='card'>
-                    <img src='./images/dish.jpg' alt='aller1' data-dish='${dish.name}'>
-                <div class='container'>
-                    <li data-dish='${dish.name}'>${dish.name}</li>
+        if (dishes.size > 1) {
+            this.footer.replaceChildren();
+            this.footer.insertAdjacentHTML('beforeend',
+                `<h3>Platos del día</h3>
+                <section id="randomdish" class="random-list"></section>
+                `);
+            let randomDish = document.getElementById('randomdish');
+            dishes.forEach(function (value, key) {
+                randomDish.insertAdjacentHTML('afterbegin',
+                    `<div class='card'>
+                        <img src='./images/dish.jpg' alt='aller1' data-dish='${value.name}'>
+                    <div class='container'>
+                        <li data-dish='${value.name}'>${value.name}</li>
+                    </div>
                 </div>
-            </div>
-            `)
+                `)
+            })
         }
     }
 
@@ -752,18 +772,21 @@ class RestaurantManagerView {
      */
     bindRandomDish(handler) {
         let randomDishId = document.getElementById('randomdish');//ojo con el nombre de la variable
-        let randomDish = randomDishId.querySelectorAll('.container li');
-        randomDish.forEach(function (item, key) {
-            item.addEventListener('click', (event) => {
-                handler(event.currentTarget.dataset.dish);
+        if (randomDishId) {
+            let randomDish = randomDishId.querySelectorAll('.container li');
+            randomDish.forEach(function (item, key) {
+                item.addEventListener('click', (event) => {
+                    handler(event.currentTarget.dataset.dish);
+                })
             })
-        })
-        let imagenList = randomDishId.querySelectorAll('.card img');
-        imagenList.forEach(function (item, key) {
-            item.addEventListener('click', (event) => {
-                handler(event.currentTarget.dataset.dish);
+            let imagenList = randomDishId.querySelectorAll('.card img');
+            imagenList.forEach(function (item, key) {
+                item.addEventListener('click', (event) => {
+                    handler(event.currentTarget.dataset.dish);
+                })
             })
-        })
+        }
+
     }
 
     /**
@@ -946,17 +969,17 @@ class RestaurantManagerView {
         addDishBt.addEventListener('click', (event) => {
             let dish = {};
             let name = document.getElementById('name');
-            name.addEventListener('invalid',function(){
+            name.addEventListener('invalid', function () {
                 this.setCustomValidity('Introduce un nombre para el plato');
             })
-            name.addEventListener('change',function(){
+            name.addEventListener('change', function () {
                 this.setCustomValidity('');
             })
             let description = document.getElementById('description');
-            description.addEventListener('invalid',function(){
+            description.addEventListener('invalid', function () {
                 this.setCustomValidity('Introduce una descripción para el plato');
             })
-            description.addEventListener('change',function(){
+            description.addEventListener('change', function () {
                 this.setCustomValidity('');
             })
 
@@ -970,7 +993,7 @@ class RestaurantManagerView {
 
 
             let category = document.getElementById('categorySl').value;
-          
+
 
             if (name && description && category) {
                 event.preventDefault();
@@ -1521,7 +1544,7 @@ class RestaurantManagerView {
      * @param {*} item 
      */
     showAlarmModal(item) {
-        let mensaje='El elemento ' + item.name + ' ya existe en esta colección';
+        let mensaje = 'El elemento ' + item.name + ' ya existe en esta colección';
         // alert('El elemento ' + item.name + ' ya existe en esta colección');
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
@@ -1529,14 +1552,14 @@ class RestaurantManagerView {
     }
     showConfirmModal(item) {
         // alert('El elemento ' + item.name + ' se ha guardado en la colección');
-        let mensaje='El elemento ' + item.name + ' se ha guardado en la colección';
+        let mensaje = 'El elemento ' + item.name + ' se ha guardado en la colección';
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
         this.showAuxiliarModal(mensaje);
     }
     showDeleteModal(item) {
         // alert('El elemento ' + item.name + ' se ha eliminado de la colección');
-        let mensaje='El elemento ' + item.name + ' se ha eliminado de la colección';
+        let mensaje = 'El elemento ' + item.name + ' se ha eliminado de la colección';
         let modal = document.getElementById("myModal");
         modal.style.display = "none";
         this.showAuxiliarModal(mensaje);
@@ -1676,9 +1699,11 @@ class RestaurantManagerView {
             console.log('cookie rechazada');
             modal.style.display = "none";
             handler('false');
-
-
+            this.showWhitOutCookies();
         })
+
+
+
     }
 
 
@@ -1738,8 +1763,6 @@ class RestaurantManagerView {
     }
 
     showProfileUser() {
-        // console.log(name);
-
         let profileUser = document.getElementById(`profileUser`);
         profileUser.replaceChildren();
         profileUser.insertAdjacentHTML('beforeend', `
@@ -1749,6 +1772,24 @@ class RestaurantManagerView {
         `)
     }
     bindLoginModal(handler) {
+        let loginBt = document.getElementById('loginBt');
+        loginBt.addEventListener('click', () => {
+            handler();
+        })
+    }
+
+
+    showRegisterUser(){
+        let profileUser = document.getElementById(`profileUser`);
+        profileUser.replaceChildren();
+        profileUser.insertAdjacentHTML('beforeend', `
+        <article id='loginArt'>
+            <a id="loginBt" class="dropbtn" title="Login">Login <i class="arrow down"></i> </a>                        
+        </article>
+        `)
+    }
+
+    bindRegisterModal(handler){
         let loginBt = document.getElementById('loginBt');
         loginBt.addEventListener('click', () => {
             handler();
@@ -1794,8 +1835,22 @@ class RestaurantManagerView {
         this.gestionModal();
 
     }
+    /**
+     * mostramos solo la funcionalidad sin usuario registrado
+     */
+
 
     showEmptyView() {
+
+        // this.nav.replaceChildren();
+        let beginning = document.getElementById('beginning');
+        beginning.replaceChildren();
+        let profileUser = document.getElementById(`profileUser`);
+        profileUser.replaceChildren();
+        this.showRegisterUser();
+    }
+
+    showWhitOutCookies() {
         this.main.replaceChildren();
         this.footer.replaceChildren();
         this.nav.replaceChildren();
@@ -1803,10 +1858,9 @@ class RestaurantManagerView {
         beginning.replaceChildren();
         let profileUser = document.getElementById(`profileUser`);
         profileUser.replaceChildren();
-
-        // this.cat = document.getElementById('cat');
-        // this.randomDish = document.getElementById('randomdish');
     }
+
+
     /**
      * enviamos el plato seleccionado a través de su checkbox
      * @param {*} handler 
@@ -1822,38 +1876,50 @@ class RestaurantManagerView {
     }
 
     showFavoritesDishes(favorites) {
-        // console.log(favorites)
-        this.main.replaceChildren();
-        this.main.insertAdjacentHTML('afterbegin',
-            `<h2>Favoritos</h2>
-        <section class='item-list' id='itemlist'></section>
-        `);
-        let itemlist = document.getElementById('itemlist');
-        for (const [key, value] of favorites) {
-            itemlist.insertAdjacentHTML('afterbegin',
-                `<div class='card'>
-                    <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
-                    <div class='container'>
-                        <li data-dish='${key}'>${key}</li>
+        console.log(favorites.size);
+        if (favorites.size === 0) {
+            this.main.replaceChildren();
+            this.main.insertAdjacentHTML('afterbegin',
+                `<h2>Favoritos</h2>
+            <section class='item-list' id='itemlist'>
+                <h3 class='no-asignado'>No conocidos</h3>
+            </section>
+            `);
+        } else {
+            this.main.replaceChildren();
+            this.main.insertAdjacentHTML('afterbegin',
+                `<h2>Favoritos</h2>
+            <section class='item-list' id='itemlist'></section>
+            `);
+            let itemlist = document.getElementById('itemlist');
+            for (const [key, value] of favorites) {
+                itemlist.insertAdjacentHTML('afterbegin',
+                    `<div class='card'>
+                        <img src='./images/dish.jpg' alt='dish' data-dish='${key}'>
+                        <div class='container'>
+                            <li data-dish='${key}'>${key}</li>
+                        </div>
+                        <div>
+                        <label class="switch">                 
+                            <input type="checkbox" class="favoriteDish" data-dish='${key}'>
+                            <span class="slider round"></span>
+                        </label> 
+                        </div>                
+                     </div>
                     </div>
-                    <div>
-                    <label class="switch">                 
-                        <input type="checkbox" class="favoriteDish" data-dish='${key}'>
-                        <span class="slider round"></span>
-                    </label> 
-                    </div>                
-                 </div>
-                </div>
-            `)
-        }
-        let favoritesChk = document.querySelectorAll('.switch input');
-        favoritesChk.forEach(function (item, key) {
-            if (favorites) {
-                if (favorites.has(item.dataset.dish)) {
-                    item.checked = true;
-                }
+                `)
             }
-        })
+            let favoritesChk = document.querySelectorAll('.switch input');
+            favoritesChk.forEach(function (item, key) {
+                if (favorites) {
+                    if (favorites.has(item.dataset.dish)) {
+                        item.checked = true;
+                    }
+                }
+            })
+        }
+        // console.log(favorites)
+
     }
 
 

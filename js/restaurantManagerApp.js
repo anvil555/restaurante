@@ -1,6 +1,7 @@
 
 import { Category, Allergen, Coordinate, Dish, Menu, Restaurant } from './objects.js';
-import RestaurantManagerController from './restaurantMangerController.js';
+
+import RestaurantManagerController from './restaurantManagerController.js';
 import RestaurantManagerView from './restaurantManagerView.js';
 import AuthenticationService from './authentication.js';
 import Manager from './restaurantmanagerModel.js';
