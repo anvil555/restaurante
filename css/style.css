@@ -47,7 +47,9 @@ header>div>a,
 header>div>a:hover {
 
   cursor: pointer;
+  
 }
+
 
 #profileUser {
   display: flex;
@@ -173,6 +175,13 @@ main .card,
   margin: 10px;
   width: 20%;
   box-shadow: 3px 3px 3px 3px gray;
+  transition: 2000px;
+
+}
+.card:hover {
+  transform:scale(1,1.05);
+box-shadow: 5px 5px 5px 5px gray;
+
 }
 
 .card img {

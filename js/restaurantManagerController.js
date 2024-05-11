@@ -600,7 +600,7 @@ class RestaurantManagerController {
             //mostramos las categorias y le damos funcionalidad.
             this[VIEW].showCategoriesType(this[MODEL].getCategories());
             this[VIEW].bindDishInCategory(this.handleDishInCategory);
-
+            
 
         }
     }

@@ -1759,7 +1759,8 @@ class RestaurantManagerView {
     }
 
     showInvalidUserMessage(name) {
-        alert('Los datos del usuario ' + name + ' no son correctos');
+        let mensaje = 'Los datos del usuario ' + name + ' no son correctos';
+        this.showAuxiliarModal(mensaje);
     }
 
     showProfileUser() {
