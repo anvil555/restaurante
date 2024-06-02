@@ -74,6 +74,7 @@ class RestaurantManagerView {
     creamos el hmtl con los datos de las categorias que recibimos del manejador
     */
     showCategoriesType(categories) {
+        console.log(categories)
         this.showTitle('Categorías');
 
         let list = document.createElement('section');

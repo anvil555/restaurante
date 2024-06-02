@@ -639,6 +639,7 @@ class RestaurantManagerController {
 
         const response = await fetch("./Backup/Backup-4-5-2024-10_15_1.json");
         const data = await response.json();
+        // console.log(data);
         if (data.dishes) {
             for (const dish of data.dishes) {
                 this[MODEL].createDish(dish.name, dish.description,
