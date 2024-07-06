@@ -17,4 +17,3 @@ if (isset($_POST['jsonObj'])) {
     echo $title;
 }
 
-?>
